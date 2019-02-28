@@ -1,0 +1,1 @@
+Pour compiler le programme : "gcc -Wall cimp.c `sdl2-config --libs --cflags` -lSDL2 -o cimp"

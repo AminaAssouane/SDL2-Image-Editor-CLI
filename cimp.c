@@ -1,38 +1,45 @@
-#include <SDL2/SDL.h>
-
+#include <SDL.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-int main(int argc, char** argv)
+
+void SDL_ExitWithError(const char *message);
+
+int main(int argc, char const *argv[])
 {
-    /* Initialisation simple */
-    if (SDL_Init(SDL_INIT_VIDEO) != 0 )
-    {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        return -1;
-    }
+    SDL_Window *window =  NULL;
+    SDL_Renderer *renderer = NULL;
 
-    {
-        /* Création de la fenêtre */
-        SDL_Window* pWindow = NULL;
-        pWindow = SDL_CreateWindow("CIMP",SDL_WINDOWPOS_UNDEFINED,
-                                                                  SDL_WINDOWPOS_UNDEFINED,
-                                                                  640,
-                                                                  480,
-                                                                  SDL_WINDOW_SHOWN);
 
-        if( pWindow )
-        {
-            SDL_Delay(3000); /* Attendre trois secondes, que l'utilisateur voie la fenêtre */
+    //Lancement SDL
+    if(SDL_Init(SDL_INIT_VIDEO) != 0)
+         SDL_ExitWithError("Initialisaion SDL");
 
-            SDL_DestroyWindow(pWindow);
-        }
-        else
-        {
-            fprintf(stderr,"Erreur de création de la fenêtre: %s\n",SDL_GetError());
-        }
-    }
 
+    //creation fenetre + rendu
+    if(SDL_CreateWindowAndRenderer(800, 600, 0, &window, &renderer) != 0)
+        SDL_ExitWithError("Impossible de créer la fenêtre et le rendu");
+
+
+    SDL_RenderPresent(renderer);
+
+    /*--------------------------------------------------------*/
+    
+    SDL_Delay(6000);
+    /*--------------------------------------------------------*/
+
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     SDL_Quit();
+    
+    return EXIT_SUCCESS;
+}
 
-    return 0;
+
+// Gestion des erreurs
+void SDL_ExitWithError(const char *message)
+{
+    SDL_Log("ERREUR : %s > %s\n", message, SDL_GetError());
+    SDL_Quit();
+    exit(EXIT_FAILURE);
 }

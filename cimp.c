@@ -2,7 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 
+
+
+void loop();
 void SDL_ExitWithError(const char *message);
 
 int main(int argc, char const *argv[])
@@ -17,17 +22,13 @@ int main(int argc, char const *argv[])
 
 
     //creation fenetre + rendu
-    if(SDL_CreateWindowAndRenderer(800, 600, 0, &window, &renderer) != 0)
+    if(SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer) != 0)
         SDL_ExitWithError("Impossible de créer la fenêtre et le rendu");
 
 
     SDL_RenderPresent(renderer);
 
-    /*--------------------------------------------------------*/
-    
-    SDL_Delay(6000);
-    /*--------------------------------------------------------*/
-
+    loop();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -35,6 +36,28 @@ int main(int argc, char const *argv[])
     return EXIT_SUCCESS;
 }
 
+
+//Permet au programme de tourner en boucle
+void loop ()
+{
+    SDL_bool program_launched = SDL_TRUE;
+    while(program_launched)
+    {
+        SDL_Event event;
+        while(SDL_PollEvent(&event))//Pour capturer tout les événements
+        {
+            switch(event.type)
+            {
+                case SDL_QUIT : //si on veut fermer la fenetre en cliquant sur la croix
+                    program_launched = SDL_FALSE;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+}
 
 // Gestion des erreurs
 void SDL_ExitWithError(const char *message)

@@ -1,1 +1,2 @@
-Pour compiler le programme : gcc -I./include -L./lib main.c -o main -lmingw32 -lSDL2main -lSLD2_image -lSDL2 
+Pour compiler le programme : make ou mingw32-make
+Pour executer le programme : main

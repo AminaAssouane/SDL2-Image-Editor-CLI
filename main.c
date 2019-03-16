@@ -1,22 +1,35 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "Fichier.h"
+#include "Edition.h"
+#include "Selection.h"
+#include "Transformations.h"
 
 void menu(){
   printf("\nConsole Image Manipulation Program");
   printf("\n\n1. Fichier");
   printf("\n\n2. Selections");
   printf("\n\n3. Edition ");
-  printf("\n\n4. Transformations\n\n");
+  printf("\n\n4. Transformations");
+  printf("\n\n5. Quitter\n\n");
 }
-
-
-int main(int argc, char** argv)
+ 
+int main(int argc, char *argv[])
 {
-  int choix, choix2, still = 1;
-  while (still == 1){
+  int choix, choix2, still = 1, largeur, hauteur;
+  char adresse[100];
+
+  if (SDL_Init(SDL_INIT_VIDEO) != 0){
+    fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+
+  while (still == 1){    
     menu();
-    printf("\nChoisissez un nombre entre 1 et 4 : ");
+    printf("\nChoisissez un nombre entre 1 et 5 : ");
     scanf("%d",&choix);
     switch(choix){
     case 1 :
@@ -28,8 +41,16 @@ int main(int argc, char** argv)
 	continue;
 	break;
       case 1:
+	printf("\nSaisissez la largeur : ");
+	scanf("%d",&largeur);
+	printf("\nSaisissez la hauteur : ");
+	scanf("%d",&hauteur);
+	newWindow(largeur,hauteur);
 	break;
       case 2:
+	printf("\nSaisissez le chemin absolu : ");
+	scanf("%s",adresse);
+	ouvrir(adresse);
 	break;
       case 3:
 	break;
@@ -89,8 +110,16 @@ int main(int argc, char** argv)
 	break;
       }
       break;
+    case 5 :
+      printf("\nAurevoir !");
+      still = 0;
+      break;
     default :
       break;
     }
   }
+  
+  SDL_Quit();
+  return 1;
 }
+ 

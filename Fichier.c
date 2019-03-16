@@ -4,29 +4,31 @@
 #include <SDL_image.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "Fichier.h"
 
 int newWindow(int largeur, int hauteur){
-  
-  if (SDL_Init(SDL_INIT_VIDEO) != 0){
-    fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-    exit(EXIT_FAILURE);
-  }
+  SDL_Event event;
+  SDL_bool quit = SDL_FALSE;
   
   SDL_Window* pWindow = pWindow = SDL_CreateWindow("Ma première application SDL2",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,largeur,hauteur,SDL_WINDOW_SHOWN);
 
-  if(pWindow = NULL){
+  if(pWindow == NULL){
     fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
     exit(EXIT_FAILURE);
   }
+  
+  while (!quit)
+    while(SDL_PollEvent(&event))
+      if(event.type == SDL_QUIT)
+	quit = SDL_TRUE;
+  
   SDL_DestroyWindow(pWindow);
-  SDL_Quit();
+  return EXIT_SUCCESS;
 }
 
 int ouvrir(char *adresse){
-   if (SDL_Init(SDL_INIT_VIDEO) != 0){
-      fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-      exit(EXIT_FAILURE);
-    }
+    SDL_Event event;
+    SDL_bool quit = SDL_FALSE;
     
     SDL_Surface *tmp = NULL; 
     SDL_Texture *texture = NULL;
@@ -53,8 +55,14 @@ int ouvrir(char *adresse){
     }
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_RenderPresent(renderer);
-    while(1);
-    SDL_Quit();
+
+    while (!quit)
+    while(SDL_PollEvent(&event))
+      if(event.type == SDL_QUIT)
+	quit = SDL_TRUE;
+    
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     return EXIT_SUCCESS;
 }
 

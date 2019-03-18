@@ -5,5 +5,5 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int newWindow(int largeur, int hauteur);
-int ouvrir(char *adresse);
+SDL_Window* newWindow(int largeur, int hauteur);
+SDL_Window* ouvrir(char *adresse);

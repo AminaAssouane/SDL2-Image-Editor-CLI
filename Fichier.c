@@ -6,27 +6,17 @@
 #include <stdio.h>
 #include "Fichier.h"
 
-int newWindow(int largeur, int hauteur){
-  SDL_Event event;
-  SDL_bool quit = SDL_FALSE;
+SDL_Window* newWindow(int largeur, int hauteur){
   
   SDL_Window* pWindow = pWindow = SDL_CreateWindow("Ma première application SDL2",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,largeur,hauteur,SDL_WINDOW_SHOWN);
-
   if(pWindow == NULL){
     fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
     exit(EXIT_FAILURE);
-  }
-  
-  while (!quit)
-    while(SDL_PollEvent(&event))
-      if(event.type == SDL_QUIT)
-	quit = SDL_TRUE;
-  
-  SDL_DestroyWindow(pWindow);
-  return EXIT_SUCCESS;
+  } 
+  return pWindow;
 }
 
-int ouvrir(char *adresse){
+SDL_Window* ouvrir(char *adresse){
     SDL_Event event;
     SDL_bool quit = SDL_FALSE;
     
@@ -63,6 +53,6 @@ int ouvrir(char *adresse){
     
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    return EXIT_SUCCESS;
+    return window;
 }
 

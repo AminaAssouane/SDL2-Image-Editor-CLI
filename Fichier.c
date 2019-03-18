@@ -17,9 +17,7 @@ SDL_Window* newWindow(int largeur, int hauteur){
 }
 
 SDL_Window* ouvrir(char *adresse){
-    SDL_Event event;
-    SDL_bool quit = SDL_FALSE;
-    
+
     SDL_Surface *tmp = NULL; 
     SDL_Texture *texture = NULL;
     tmp = IMG_Load(adresse);
@@ -46,13 +44,6 @@ SDL_Window* ouvrir(char *adresse){
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_RenderPresent(renderer);
 
-    while (!quit)
-    while(SDL_PollEvent(&event))
-      if(event.type == SDL_QUIT)
-	quit = SDL_TRUE;
-    
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
     return window;
 }
 

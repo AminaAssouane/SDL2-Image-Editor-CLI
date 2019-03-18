@@ -18,13 +18,13 @@ void menu(){
   printf("\n\n4. Transformations");
   printf("\n\n5. Quitter\n");
   printf("\n\nChoisissez un nombre entre 1 et 5 : ");
-  printf("\n** INDICATION **  : Veuillez cliquer sur une des fenêtres ouvertes avant de taper votre choix.\n");
+  printf("\n** INDICATION **  : Veuillez cliquer sur une des fenetres ouvertes avant de taper votre choix.\n");
 }
 
 void menuFichier(){
   printf("\nI\\ Fichier\n0. Retour\n1. Nouvelle Fenetre\n2. Charger image\n3. Sauvegarder image\n");
   printf("\nChoisissez un nombre entre 0 et 3 : ");
-  printf("\nINDICATION : Veuillez cliquez sur une des fenêtres ouvertes avant de taper votre choix.\n");
+  printf("\n** INDICATION ** : Veuillez cliquez sur une des fenetres ouvertes avant de taper votre choix.\n");
 }
 
 SDL_Window* debut(){
@@ -75,7 +75,6 @@ int main(int argc, char *argv[])
   SDL_Window* window[MAX_WIN];
   int largeur, hauteur, nbWindows = 0, iWindow = 0;
   int bool = 1,bool1 = 1;
-  int afficheMenu = 1;
   char adresse[100];
 
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0){
@@ -92,7 +91,7 @@ int main(int argc, char *argv[])
     }
     
     while (SDL_PollEvent(&event)){
-      bool1=1;
+      bool1 = 1;
       switch(event.type){
       case SDL_WINDOWEVENT :
 	if (event.window.event == SDL_WINDOWEVENT_CLOSE){
@@ -124,6 +123,7 @@ int main(int argc, char *argv[])
 		  menu();
 		  break;
 		case SDLK_KP_1:
+		  printf("\n** INDICATION ** : Cliquez sur la console avant de taper les valeurs.");
 		  printf("\nSaisissez la largeur : ");
 		  scanf("%d",&largeur);
 		  printf("\nSaisissez la hauteur : ");
@@ -133,6 +133,7 @@ int main(int argc, char *argv[])
 		  menuFichier();
 		  break;
 		case SDLK_KP_2:
+		  printf("\n** INDICATION ** : Cliquez sur la console avant de taper la valeur.");
 		  printf("\nSaisissez le chemin absolu : ");
 		  scanf("%s",adresse);
 		  window[nbWindows] = ouvrir(adresse);

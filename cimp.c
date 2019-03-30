@@ -1,68 +1,150 @@
-#include <SDL.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
-
-
-
-void loop();
-void SDL_ExitWithError(const char *message);
-
-int main(int argc, char const *argv[])
-{
-    SDL_Window *window =  NULL;
-    SDL_Renderer *renderer = NULL;
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include "fcntl.h"
+#include <unistd.h>
+#include <readline/readline.h>
+#include "cimp.h"
 
 
-    //Lancement SDL
-    if(SDL_Init(SDL_INIT_VIDEO) != 0)
-         SDL_ExitWithError("Initialisaion SDL");
 
+// liste de pointeur de fonction
 
-    //creation fenetre + rendu
-    if(SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer) != 0)
-        SDL_ExitWithError("Impossible de créer la fenêtre et le rendu");
-
-
-    SDL_RenderPresent(renderer);
-
-    loop();
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+int (*addr_cmd[]) (int,char *[]) = {
     
-    return EXIT_SUCCESS;
+};
+
+
+
+// liste des commandes de l'éditeur
+
+char *cmd_interne[] = {
+
+};
+
+
+//renvoie la taille de la ligne de commande
+int args_length(char *args[]) {
+    int i = 0;
+    for (i = 0; args[i] != NULL; i++) {}
+    return i;
 }
 
 
-//Permet au programme de tourner en boucle
-void loop ()
+void init_cimp()
 {
-    SDL_bool program_launched = SDL_TRUE;
-    while(program_launched)
-    {
-        SDL_Event event;
-        while(SDL_PollEvent(&event))//Pour capturer tout les événements
-        {
-            switch(event.type)
-            {
-                case SDL_QUIT : //si on veut fermer la fenetre en cliquant sur la croix
-                    program_launched = SDL_FALSE;
-                    break;
+    printf("\n\n\n                     **********************************\n");
+    printf("\n\n\n                 Bienvenue sur votre editeur d'image CIMP     \n\n\n");
+    printf("\n\n                     **********************************\n\n");
 
-                default:
-                    break;
-            }
+    printf("\n"); 
+    
+
+}
+
+void prompt(void) {
+    char *line;
+    char **args;
+    init_cimp();
+    
+    do {
+       
+        // on recupere la ligne de commande
+        line = readline("<cimp>: ");
+        
+        //on effectue une copie de cette ligne
+        char *cop = malloc(sizeof(char)*(strlen(line)+1));
+        strcpy(cop,line);
+        
+        args = split_line(line);
+        free(line);
+        free(args);
+    } while(1);
+}
+
+// split_line la ligne de commande pour obtenir les arguments
+char **split_line(char *line) {
+    int pos = 0;
+    char **tab;
+    char *s;
+    
+    // alloue un tableau qui contiendra les arguments
+    if ((tab = malloc(sizeof(char*) * SIZE_CMD)) == NULL)
+        exit(1);
+
+    s = strtok(line, SEPARATEUR);
+    while (s != NULL) {
+        tab[pos++] = s;
+        s = strtok(NULL, SEPARATEUR);
+    }
+
+    tab[pos] = NULL;
+    return tab;
+}
+
+
+int execArgs(char *args[]) {
+    pid_t pid;
+    pid=fork();
+
+    if (pid==0)
+    {
+        if (execvp(args[0], args) < 0) 
+        { 
+            fprintf(stderr, "cimp: command not found: %s\n", args[0]);
+            exit(1);
+        } 
+        
+    } 
+    else if (pid < 0) 
+    {
+        perror("fork failed");
+        exit(1);
+    }
+    else {
+        int status;
+ 
+        if (waitpid(pid, &status, 0) == -1) {
+            perror("waitpid");
+            exit(1);
         }
+ 
+        if (WIFEXITED(status)) {// si le processus fils s'est terminé normalement
+            if(WEXITSTATUS(status)==1)// renvoie la valeur de sortie du fils
+                return 1;
+            else
+                return 0;
+        }
+    }
+    
+    return 1;
+}
+
+
+// execution des commandes
+int exec_cmd(char *args[]) {
+    if (args[0] == NULL) { return 1; }
+
+    else{   
+        int size = sizeof(cmd_interne) / sizeof(char *);
+        for (int i = 0; i < size; i++) {
+            if (strcmp(args[0], cmd_interne[i]) == 0)
+                return (*addr_cmd[i])(args_length(args), args);
+        }
+        return execArgs(args);
     }
 }
 
-// Gestion des erreurs
-void SDL_ExitWithError(const char *message)
-{
-    SDL_Log("ERREUR : %s > %s\n", message, SDL_GetError());
-    SDL_Quit();
-    exit(EXIT_FAILURE);
+
+
+int main(int argc, char *argv[]) {
+
+    //execution de la boucle d'interraction de  l'éditeur
+    prompt();
+
+    return 0;
 }

@@ -3,11 +3,4 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "cimp.h"
-
-int main(int argc, char *argv[])
-{
-  cimp();
-  return 1;
-}
- 
+void selectRectInterface(int *x, int *y, int *largeur, int *hauteur);

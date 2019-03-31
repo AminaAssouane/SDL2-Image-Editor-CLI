@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "interfaceFichier.h"
+
 void menuFichier();
-SDL_Window* newWindow(int largeur, int hauteur);
+SDL_Window* newWindow();
 SDL_Window* ouvrir(char *adresse);

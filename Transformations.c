@@ -78,9 +78,34 @@ SDL_Surface noir_et_blanc(SDL_Surface image){
             pixels[y * image->w + x] = pixel;
 	    }
 	}
-
+	return image;
 }
 
+
+//remplacement de couleur, avec ou sans marge de tolérance
+SDL_Surface remplacement_couleur(SDL_Surface image){
+	for (int y = 0; y < image->h; y++)
+	{
+	    for (int x = 0; x < image->w; x++)
+	  	{
+	      	Uint32 pixel = pixels[y * image->w + x];
+ 
+           	Uint8 r = pixel >> 16 & 0xFF;
+           	Uint8 g = pixel >> 8 & 0xFF;
+           	Uint8 b = pixel & 0xFF;
+ 			if(r < 60 && g < 60 && b <50)
+ 			{ 
+ 				r = 255;
+ 				g = 0;
+ 				b = 0;
+ 			}
+ 			
+           	pixel = (0xFF << 24) | (r << 16) | (g << 8) | b;
+           	pixels[y * image->w + x] = pixel;
+        }
+    }	
+    return image;
+}
 
 
 //Remplissage par une couleur donnée
@@ -90,3 +115,4 @@ SDL_Surface remplissage_par_une_couleur(SDL_Surface image){
 	
 	return image;
 }
+

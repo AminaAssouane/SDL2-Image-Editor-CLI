@@ -19,5 +19,5 @@
 SDL_Surface mise_en_niveaux_de_gris(SDL_Surface image);
 SDL_Surface mise_en_negatif(SDL_Surface image);
 SDL_Surface noir_et_blanc(SDL_Surface image);
-SDL_Surface remplacement_couleur(SDL_Surface image);
-SDL_Surface remplissage_par_une_couleur(SDL_Surface image);
+SDL_Surface remplacement_couleur(SDL_Surface image, SDL_Color old_color, SDL_Color new_color, int marge);
+SDL_Surface remplissage_par_une_couleur(SDL_Surface image, SDL_Color color);

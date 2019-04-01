@@ -14,6 +14,7 @@ SDL_Surface mise_en_niveaux_de_gris(SDL_Surface image){
 	  	{
 	          	
 	    	Uint32 pixel = pixels[y * image->w + x];
+
 			Uint8 r = pixel >> 16 & 0xFF;
 			Uint8 g = pixel >> 8 & 0xFF;
 			Uint8 b = pixel & 0xFF;
@@ -62,12 +63,12 @@ SDL_Surface noir_et_blanc(SDL_Surface image){
            	Uint8 r = pixel >> 16 & 0xFF;
            	Uint8 g = pixel >> 8 & 0xFF;
            	Uint8 b = pixel & 0xFF;
- 			if((r+g+b)/3 < 127){ 
+ 			if((r+g+b)/3 < 127){
  				r = 0;
  				g = 0;
  				b = 0;
  			}
- 			else{ 
+ 			else{
  				r = 255;
  				g = 255;
  				b = 255; 
@@ -82,36 +83,37 @@ SDL_Surface noir_et_blanc(SDL_Surface image){
 }
 
 
+
 //remplacement de couleur, avec ou sans marge de tolérance
-SDL_Surface remplacement_couleur(SDL_Surface image){
+SDL_Surface remplacement_couleur(SDL_Surface image, SDL_Color old_color, SDL_Color new_color, int marge){ //marge = 0 si pas de tolérance
 	for (int y = 0; y < image->h; y++)
 	{
 	    for (int x = 0; x < image->w; x++)
-	  	{
-	      	Uint32 pixel = pixels[y * image->w + x];
+	    {
+	       	Uint32 pixel = pixels[y * image->w + x];
  
            	Uint8 r = pixel >> 16 & 0xFF;
-           	Uint8 g = pixel >> 8 & 0xFF;
+          	Uint8 g = pixel >> 8 & 0xFF;
            	Uint8 b = pixel & 0xFF;
- 			if(r < 60 && g < 60 && b <50)
+ 			if(r < old_color.r+marge && r >= old_color.r-marge && g < old_color.g+marge && g >= old_color.g-marge && b < old_color.b+marge && b >= old_color.b-marge)
  			{ 
- 				r = 255;
- 				g = 0;
- 				b = 0;
+ 				r = new_color.r;
+ 				g = new_color.g;
+ 				b = new_color.b;
  			}
- 			
+ 		
            	pixel = (0xFF << 24) | (r << 16) | (g << 8) | b;
            	pixels[y * image->w + x] = pixel;
-        }
+	    }
     }	
     return image;
 }
 
 
 //Remplissage par une couleur donnée
-SDL_Surface remplissage_par_une_couleur(SDL_Surface image){
+SDL_Surface remplissage_par_une_couleur(SDL_Surface image, SDL_Color color){
 
-	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, 255, 110, 100));
+	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, color.r, color.g, color.b));
 	
 	return image;
 }

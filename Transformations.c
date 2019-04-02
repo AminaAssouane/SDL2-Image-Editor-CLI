@@ -15,8 +15,8 @@ SDL_Surface mise_en_niveaux_de_gris(SDL_Surface image){
 	          	
 	    	Uint32 pixel = pixels[y * image->w + x];
 
-			UUint8 r, g, b;
-	        SDL_GetRGB(pixel, image->format, &r,&g,&b);
+			Uint8 r, g, b;
+	    	SDL_GetRGB(pixel, image->format, &r,&g,&b);
 
 			Uint8 v = (r + g + b) /3;
 			pixel = (0xFF << 24) | (v << 16) | (v << 8) | v;
@@ -36,8 +36,8 @@ SDL_Surface mise_en_negatif(SDL_Surface image){
         {
             Uint32 pixel = pixels[y * image->w + x];
  
-            Uint8 r, g, b;
-	        SDL_GetRGB(pixel, image->format, &r,&g,&b);
+        	Uint8 r, g, b;
+	    	SDL_GetRGB(pixel, image->format, &r,&g,&b);
  
             r = 255 - r;
             g = 255 - g;
@@ -59,8 +59,8 @@ SDL_Surface noir_et_blanc(SDL_Surface image){
 	    {
 	       	Uint32 pixel = pixels[y * image->w + x];
  
-           	Uint8 r, g, b;
-	        SDL_GetRGB(pixel, image->format, &r,&g,&b);
+        	Uint8 r, g, b;
+	    	SDL_GetRGB(pixel, image->format, &r,&g,&b);
 
  			if((r+g+b)/3 < 127){
  				r = 0;
@@ -93,7 +93,7 @@ SDL_Surface remplacement_couleur(SDL_Surface image, SDL_Color old_color, SDL_Col
  
            	Uint8 r, g, b;
 	        SDL_GetRGB(pixel, image->format, &r,&g,&b);
-	        
+
  			if(r < old_color.r+marge && r >= old_color.r-marge && g < old_color.g+marge && g >= old_color.g-marge && b < old_color.b+marge && b >= old_color.b-marge)
  			{ 
  				r = new_color.r;

@@ -94,6 +94,109 @@ SDL_Surface remplissage_par_une_couleur(SDL_Surface image, SDL_Color color){
 }
 
 
+
+
+Uint8 luminosite_moins(Uint8 c, double n){ 
+	return (Uint8)(SDL_pow ((double) c * SDL_pow(255, n-1), 1/n)); 
+}
+
+Uint8 luminosite_plus(Uint8 c, double n){ 
+	return (Uint8) (255 * SDL_pow(((double) c) / 255, n)); 
+}
+
+
+//Gestion de la luminosité
+SDL_Surface ajustement_luminosite(SDL_Surface image, char *op, int n){
+	//op : désigne "+" || "-" pour l'augmentation et la diminution de luminosité
+	//n : le nombre de fois qu'on applique ces fonctions
+
+	double c = 0.5;
+	int nb = 0;
+
+	//Diminution de la luminosité
+	if (strcmp(op, "-") == 0){
+		while(nb < n){
+
+			for(int i = 0; i < image->h; i++)
+			{
+    			for(int j = 0; j < image->w; j++)
+    			{
+
+    				SDL_Color color;
+        			SDL_GetRGBA(pixels[i * image->w + j], image->format, &color.r, &color.g, &color.b, &color.a);
+
+    	    		color.r = luminosite_moins(color.r, c);
+    	    		color.g = luminosite_moins(color.g, c);
+        			color.b = luminosite_moins(color.b, c);
+  	
+    	    		pixels[i * image->w + j] = SDL_MapRGBA(image->format, color.r, color.g, color.b, color.a);
+
+    	    	}
+    		}
+    		nb++;
+    	}
+    }
+    
+    //Augmentation de la luminosité
+    if (strcmp(op, "+") == 0){
+    	while(nb < n){
+			for(int i = 0; i < image->h; i++)
+			{
+    			for(int j = 0; j < image->w; j++)
+    			{
+	    			SDL_Color color;
+    	    		SDL_GetRGBA(pixels[i * image->w + j], image->format, &color.r, &color.g, &color.b, &color.a);
+
+	        		color.r = luminosite_plus(color.r, c);
+        			color.g = luminosite_plus(color.g, c);
+	        		color.b = luminosite_plus(color.b, c);
+	  
+	        		pixels[i * image->w + j] = SDL_MapRGBA(image->format, color.r, color.g, color.b, color.a);
+    			}
+    		}
+    		nb++;
+    	}
+    }
+
+    return image;
+}
+
+//Gestion du contraste
+Uint8 contraste(Uint8 c, double n){
+	if(c <= 255 / 2)
+		return (Uint8)( (255/2) * SDL_pow((double) 2 * c / 255, n));
+	else
+		return 255 - contraste(255 - c, n);
+}
+
+SDL_Surface ajustement_contraste(SDL_Surface image, int n){
+	// n : le nombre de fois qu'on applique cette fonction
+
+	double c = 2;
+	int nb = 0;
+	while(nb < n){
+
+		for(int i = 0; i < image->h; i++){
+	    	for(int j = 0; j < image->w; j++)
+	    	{
+		    	SDL_Color color;
+				SDL_GetRGB(pixels[i * image->w + j], image->format, &color.r, &color.g, &color.b);
+
+				color.r = contraste(color.r, c);
+				color.g = contraste(color.g, c);
+				color.b = contraste(color.b, c);
+		        
+				pixels[i * image->w + j] = SDL_MapRGB(image->format, color.r, color.g, color.b);
+			}
+			nb++;
+		}
+	}
+	
+	return image;
+}
+
+
+
 //Symétrie verticale et horizontale
 SDL_Surface symetrie(SDL_Surface image, char *type){
 	//type : indique le type de la symétrie (horizontale || verticale)

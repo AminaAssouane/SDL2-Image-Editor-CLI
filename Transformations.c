@@ -133,8 +133,9 @@ SDL_Surface ajustement_luminosite(SDL_Surface image, char *op, int n){
 
 	    }
 	}
-      nb++;
+     
     }
+    nb++;
   }
     
   //Augmentation de la luminosité

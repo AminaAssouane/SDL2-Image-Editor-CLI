@@ -133,9 +133,8 @@ SDL_Surface ajustement_luminosite(SDL_Surface image, char *op, int n){
 
 	    }
 	}
-     
+      nb++;
     }
-    nb++;
   }
     
   //Augmentation de la luminosité
@@ -189,8 +188,9 @@ SDL_Surface ajustement_contraste(SDL_Surface image, int n){
 		        
 	  pixels[i * image->w + j] = SDL_MapRGB(image->format, color.r, color.g, color.b);
 	}
-      nb++;
+      
     }
+    nb++;
   }
 	
   return image;

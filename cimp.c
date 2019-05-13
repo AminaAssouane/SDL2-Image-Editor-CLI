@@ -50,15 +50,15 @@ int parse(char **cmd){
   
   if (strcasecmp(cmd[0],"help") == 0){
     if (args_length(cmd) > 2)
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help help]\n");
     else
       help(cmd[1]);
     return 1;
   }
 
-  if (strcasecmp(cmd[0],"icon") == 0){
+  else if (strcasecmp(cmd[0],"icon") == 0){
     if (args_length(cmd) != 2)
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help icon]\n");
     else {      
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       icon(window[iWindow],cmd[1]);
@@ -66,9 +66,9 @@ int parse(char **cmd){
     return 1;
   }
   
-  if (strcasecmp(cmd[0],"new") == 0){
+  else if (strcasecmp(cmd[0],"new") == 0){
     if (args_length(cmd) < 3){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help new]\n");
       return 0;
     }
     else {
@@ -78,9 +78,9 @@ int parse(char **cmd){
     return 1;
   }
   
-  if (strcasecmp(cmd[0],"open") == 0){
+  else if (strcasecmp(cmd[0],"open") == 0){
     if (args_length(cmd) < 2){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help open]\n");
       return 0;
     }
     else {
@@ -90,9 +90,9 @@ int parse(char **cmd){
     }
   }
   
-  if (strcasecmp(cmd[0],"save") == 0){
+  else if (strcasecmp(cmd[0],"save") == 0){
     if ((args_length(cmd) < 2) || (args_length(cmd) > 3)){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help save]\n");
       return 0;
     }
     else {
@@ -108,7 +108,7 @@ int parse(char **cmd){
     }
   }
 
-  if (strcasecmp(cmd[0],"select") == 0){
+  else if (strcasecmp(cmd[0],"select") == 0){
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       selectRect(window[iWindow]);
@@ -127,14 +127,14 @@ int parse(char **cmd){
       return 1;
     }
     else {
-      printf("\nLa syntaxe de la commande n'est pas correcte.");
+      printf("Syntaxe incorrecte ! Consultez [help select]\n");
       return 0;
     }
   }
   
-  if (strcasecmp(cmd[0],"unselect") == 0){
+  else if (strcasecmp(cmd[0],"unselect") == 0){
     if (args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help unselect]\n");
       return 0;
     }
     else {
@@ -143,9 +143,9 @@ int parse(char **cmd){
     }
   }
 
-  if (strcasecmp(cmd[0],"quit") == 0){
+  else if (strcasecmp(cmd[0],"quit") == 0){
     if (args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help quit]\n");
       return 0;
     }
     else {
@@ -155,45 +155,51 @@ int parse(char **cmd){
 
   //------------------------------ * TRANSFORMATIONS * -------------------------------//
 
-  if(strcasecmp(cmd[0], "grey") == 0){
-    if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+  else if(strcasecmp(cmd[0], "grey") == 0){
+    if(args_length(cmd) != 1){
+      printf("Syntaxe incorrecte ! Consultez [help grey]\n");
       return 0;
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      //mise_en_niveaux_de_gris();
+      SDL_Surface * tmp = mise_en_niveaux_de_gris((*window)->surface); 
+      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
+      SDL_UpdateWindowSurface((*window)->window);
       return 0;
     }
   }
 
-  if(strcasecmp(cmd[0], "negative") == 0){
-    if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+  else if(strcasecmp(cmd[0], "negative") == 0){
+    if(args_length(cmd) != 1){
+      printf("Syntaxe incorrecte ! Consultez [help negative]\n");
       return 0;
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      //mise_en_negatif();
+      SDL_Surface * tmp = mise_en_negatif((*window)->surface); 
+      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
+      SDL_UpdateWindowSurface((*window)->window);
       return 0;
     }
   }
 
-  if(strcasecmp(cmd[0], "blacknwhite") == 0){
-    if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+  else if(strcasecmp(cmd[0], "blacknwhite") == 0){
+    if(args_length(cmd) != 1){
+      printf("Syntaxe incorrecte ! Consultez [help blacknwhite]\n");
       return 0;
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      //noir_et_blanc();
+      SDL_Surface * tmp = noir_et_blanc((*window)->surface); 
+      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
+      SDL_UpdateWindowSurface((*window)->window);
       return 0;
     }
   }
 
-  if(strcasecmp(cmd[0], "replace_color") == 0){
+  else if(strcasecmp(cmd[0], "replace_color") == 0){
     if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help replace_color]\n");
       return 0;
     }
     else{
@@ -203,9 +209,9 @@ int parse(char **cmd){
     }
   }
 
-  if(strcasecmp(cmd[0], "fill_color") == 0){
+  else if(strcasecmp(cmd[0], "fill_color") == 0){
     if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help fill_color]\n");
       return 0;
     }
     else{
@@ -215,33 +221,37 @@ int parse(char **cmd){
     }
   }
 
-  if(strcasecmp(cmd[0], "light") == 0){
+  else if(strcasecmp(cmd[0], "light") == 0){
     if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help light]\n");
       return 0;
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      //ajustement_luminosite();
+      SDL_Surface * tmp = ajustement_luminosite((*window)->surface, cmd[1]); 
+      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
+      SDL_UpdateWindowSurface((*window)->window);
       return 0;
     }
   }
 
-  if(strcasecmp(cmd[0], "contrast") == 0){
+  else if(strcasecmp(cmd[0], "contrast") == 0){
     if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help contrast]\n");
       return 0;
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      //remplacement_contraste();
+      SDL_Surface * tmp = ajustement_contraste((*window)->surface); 
+      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
+      SDL_UpdateWindowSurface((*window)->window);
       return 0;
     }
   }
 
-  if(strcasecmp(cmd[0], "symmetry") == 0){
+  else if(strcasecmp(cmd[0], "symmetry") == 0){
     if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help symmetry]\n");
       return 0;
     }
     else{
@@ -251,9 +261,9 @@ int parse(char **cmd){
     }
   }
 
-  if(strcasecmp(cmd[0], "rotate") == 0){
+  else if(strcasecmp(cmd[0], "rotate") == 0){
     if(args_length(cmd) > 1){
-      printf("\nLa syntaxe de la commande n'est pas correcte");
+      printf("Syntaxe incorrecte ! Consultez [help rotate]\n");
       return 0;
     }
     else{
@@ -261,6 +271,9 @@ int parse(char **cmd){
       //rotation();
       return 0;
     }
+  }
+  else{
+    printf("Commande non valide ! consultez le menu help\n");
   }
 
 

@@ -29,12 +29,6 @@ void init_cimp()
     printf("\n\n\n                     **********************************\n");
     printf("\n\n\n                 Bienvenue sur votre editeur d'image CIMP     \n\n\n");
     printf("\n\n                     **********************************\n\n");
-
-    printf("\n. Fichier : pour affichier le menu \"Fichier\"");
-    printf("\n. Selections : pour afficher le menu \"Selection\"");
-    printf("\n. Edition (Pas encore) ");
-    printf("\n. Transformations (Pas encore)");
-    printf("\n. Quitter : pour quitter CIMP\n");
     
 
 }
@@ -71,35 +65,73 @@ int parse(char **cmd){
   // Si l'utilisateur n'a rien tapé, on sort
   if (args_length(cmd) == 0)
     return 0;
-  if (strcasecmp(cmd[0],"fichier") == 0)
-    menuFichier();
-  if (strcasecmp(cmd[0],"nouvelle") == 0){
-    window[nbWindows] = newWindow();
-    nbWindows++;
+  
+  if (strcasecmp(cmd[0],"help") == 0){
+    if (args_length(cmd) > 2)
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+    else
+      help(cmd[1]);
     return 1;
   }
-  if (strcasecmp(cmd[0],"ouvrir") == 0){
-    if (args_length(cmd) < 2)
+  
+  if (strcasecmp(cmd[0],"new") == 0){
+    if (args_length(cmd) < 3){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
       return 0;
-    window[nbWindows] = ouvrir(cmd[1]);
-    nbWindows++;
+    }
+    else {
+      window[nbWindows] = newWindow(cmd[1],cmd[2]);
+      nbWindows++;
+    }
     return 1;
   }
-  if ((strcasecmp(cmd[0],"selection") == 0) && (args_length(cmd) == 1))
-    menuSelection();
-  if ((strcasecmp(cmd[0],"selection") == 0) && (args_length(cmd) == 2)){
-    if (strcasecmp(cmd[1],"fenetre") == 0){ 
+  
+  if (strcasecmp(cmd[0],"open") == 0){
+    if (args_length(cmd) < 2){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else {
+      window[nbWindows] = ouvrir(cmd[1]);
+      nbWindows++;
+    }
+    return 1;
+  }
+  
+  if (strcasecmp(cmd[0],"save") == 0){
+    if ((args_length(cmd) < 2) || (args_length(cmd) > 3)){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else {
+      //sauvegarde(cmd[1],cmd[2]);
+    }
+  }
+
+  if (strcasecmp(cmd[0],"select") == 0){
+    if ((args_length(cmd) != 1) && (args_length(cmd) != 5)){
+      printf("\nLa syntaxe de la commande n'est pas correcte.");
+      return 0;
+    }
+    if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       selectWindow(window[iWindow]);
     }
-    if (strcasecmp(cmd[1],"rectangle") == 0){
+    if (args_length(cmd) == 5){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selectRect(window[iWindow]);
+      selectRect(window[iWindow],cmd[1],cmd[2],cmd[3],cmd[4]);
     }
   }
-  if (strcasecmp(cmd[0],"deselectionner") == 0){
-    iWindow = findWindowID(window,event.window.windowID,nbWindows);
-    deselectionner(window[iWindow]);
+  
+  if (strcasecmp(cmd[0],"unselect") == 0){
+    if (args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else {
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      deselectionner(window[iWindow]);
+    }
   }
   return 2;
 }
@@ -113,7 +145,7 @@ void cimp() {
   do {
     /* S'il n'y a pas de fenêtre ouverte, on doit d'abord en ouvrir une, car SDL_Event ne marche pas sans */
     while (nbWindows == 0){
-      line = readline("<cimp>: ");
+      line = readline("\n<cimp>: ");
       args = split_line(line);
       parse(args);
     }
@@ -131,7 +163,7 @@ void cimp() {
 	
       case SDL_KEYDOWN :
 	// on recupere la ligne de commande
-	line = readline("<cimp>: ");
+	line = readline("\n<cimp>: ");
 	args = split_line(line);
 	parse(args);
 	free(line);

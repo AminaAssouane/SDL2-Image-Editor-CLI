@@ -7,17 +7,13 @@
 #include <assert.h>
 
 #include "Fichier.h"
-#include "interfaceFichier.h"
 
-void menuFichier(){
-  printf("\n ****        Fichier      ****\nNouvelle -> Nouvelle Fenetre\nOuvrir -> Ouvrir image (exemple : foret.jpg)\n\n");
-}
 
-SDL_Window* newWindow(){
 
-  int largeur = 0, hauteur = 0;
-  newWindowInterface(&largeur,&hauteur);
-  printf("%d %d",largeur,hauteur);
+SDL_Window* newWindow(char* larg, char* haut){
+
+  int largeur = atoi(larg), hauteur = atoi(haut);
+  //printf("%d %d",largeur,hauteur);
   
   SDL_Window* window  = SDL_CreateWindow("Nouvelle Fenetre",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,largeur,hauteur,SDL_WINDOW_SHOWN);
   assert(window != NULL);

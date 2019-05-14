@@ -7,11 +7,7 @@
 #include <assert.h>
 
 #include "Selection.h"
-#include "interfaceSelection.h"
 
-void menuSelection(){
-  printf("\nI\\ Selection \n.Selection fenetre ->  Selectionner toute la fenetre\n.Selectio rectangle -> Region rectangulaire au clavier \n.Deselectionner -> Deselectionner la region deja selectionnee\n");
-}
 
 void colorSelect(SDL_Renderer *renderer, SDL_Rect *rect){
   assert(SDL_SetRenderDrawColor(renderer,150,0,150,255) >= 0);
@@ -45,13 +41,10 @@ void selectWindow(SDL_Window *window){
   assert(SDL_SetRenderTarget(renderer, texture) >= 0);
 }
 
-void selectRect(SDL_Window *window){
+void selectRect(SDL_Window *window, char* myx, char* myy, char* mylargeur, char* myhauteur){
   
   SDL_Renderer* renderer = SDL_GetRenderer(window);
-  int x = 0, y = 0, largeur = 0, hauteur = 0;
-
-  // On selectionne les valeurs du rectangle
-  selectRectInterface(&x,&y,&largeur,&hauteur);
+  int x = atoi(myx), y = atoi(myy), largeur = atoi(mylargeur), hauteur = atoi(myhauteur);
   
   // SDL_GetRendererOutputSize(renderer,&largeur,&hauteur);
   SDL_Rect rect = {x, y, largeur, hauteur};

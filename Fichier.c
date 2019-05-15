@@ -45,19 +45,19 @@ structWindow* ouvrir(char *adresse){
   
   structWindow* myWindow = malloc(sizeof(structWindow));
   assert(myWindow != NULL);
-    
-  myWindow->surface = IMG_Load(adresse);
-  assert(myWindow->surface != NULL);  
 
-  SDL_CreateWindowAndRenderer((myWindow->surface)->w,(myWindow->surface)->h,SDL_WINDOW_SHOWN,&(myWindow->window),&(myWindow->renderer));
-  assert((myWindow->window != NULL) && (myWindow->renderer != NULL));
-    
-  myWindow->texture = SDL_CreateTextureFromSurface(myWindow->renderer, myWindow->surface);
-  assert(myWindow->texture != NULL);
-  /*
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
-    SDL_RenderPresent(renderer);
-  */
+  SDL_Surface* image = IMG_Load(adresse);
+  assert(image != NULL);
+
+  myWindow->window = SDL_CreateWindow(adresse,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,image->w,image->h,SDL_WINDOW_SHOWN);
+  assert(myWindow->window != NULL);
+  
+  myWindow->surface = SDL_GetWindowSurface(myWindow->window);
+  assert(myWindow->surface != NULL);  
+  
+  SDL_BlitSurface(image, NULL, myWindow->surface, NULL);
+  SDL_UpdateWindowSurface(myWindow->window);
+  
   return myWindow;
 }
 

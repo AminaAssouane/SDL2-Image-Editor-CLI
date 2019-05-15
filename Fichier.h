@@ -8,3 +8,4 @@
 
 SDL_Window* newWindow();
 SDL_Window* ouvrir(char *adresse);
+void sauvegarde(SDL_Window* window, char* opt, char* name);

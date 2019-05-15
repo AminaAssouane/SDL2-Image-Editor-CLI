@@ -15,7 +15,6 @@
 #include "Fichier.h"
 #include "Edition.h"
 #include "Selection.h"
-#include "Transformations.h"
 
 
 SDL_Event event;
@@ -94,8 +93,8 @@ int parse(char **cmd){
     else {
       window[nbWindows] = ouvrir(cmd[1]);
       nbWindows++;
+      return 1;
     }
-    return 1;
   }
   
   if (strcasecmp(cmd[0],"save") == 0){
@@ -104,7 +103,15 @@ int parse(char **cmd){
       return 0;
     }
     else {
-      //sauvegarde(cmd[1],cmd[2]);
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      if (args_length(cmd) == 2){
+	sauvegarde(window[iWindow], NULL, cmd[1]);
+	return 1;
+      }
+      else {
+	sauvegarde(window[iWindow], cmd[1], cmd[2]);
+	return 1;
+      }	
     }
   }
 
@@ -116,10 +123,13 @@ int parse(char **cmd){
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       selectWindow(window[iWindow]);
+      printf("iwindow %d",iWindow);
     }
     if (args_length(cmd) == 5){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       selectRect(window[iWindow],cmd[1],cmd[2],cmd[3],cmd[4]);
+      
+      printf("iwindow %d",iWindow);
     }
   }
   

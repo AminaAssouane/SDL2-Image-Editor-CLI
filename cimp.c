@@ -9,12 +9,13 @@
 #include <readline/readline.h>
 #include <strings.h>
 #include <assert.h>
-
 #include "cimp.h"
-#include "Auxiliaires.h"
-#include "Fichier.h"
-#include "Edition.h"
-#include "Selection.h"
+#include "Auxiliaires.c"
+#include "Fichier.c"
+#include "Edition.c"
+#include "Selection.c"
+#include "Help.c"
+//#include "Transformations.c"
 
 
 SDL_Event event;
@@ -69,7 +70,7 @@ int parse(char **cmd){
     if (args_length(cmd) > 2)
       printf("\nLa syntaxe de la commande n'est pas correcte");
     else
-      help(cmd[1]);
+      help_cmd(cmd[1]);
     return 1;
   }
   
@@ -153,6 +154,118 @@ int parse(char **cmd){
       exit(0);
     }
   }
+
+  //------------------------------ * TRANSFORMATIONS * -------------------------------//
+
+  if(strcasecmp(cmd[0], "grey") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //mise_en_niveaux_de_gris();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "negative") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //mise_en_negatif();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "blacknwhite") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //noir_et_blanc();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "replace_color") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //remplacement_couleur();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "fill_color") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //remplissage_par_une_couleur();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "light") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //ajustement_luminosite();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "contrast") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //remplacement_contraste();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "symmetry") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //symmetry();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "rotate") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //rotation();
+      return 0;
+    }
+  }
+
+
   return 2;
 }
 

@@ -143,6 +143,16 @@ int parse(char **cmd){
       deselectionner(window[iWindow]);
     }
   }
+
+  if (strcasecmp(cmd[0],"quit") == 0){
+    if (args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else {
+      exit(0);
+    }
+  }
   return 2;
 }
 

@@ -36,7 +36,7 @@ void help(char* comm){
     printf("\nCUT         Coupe une region de l'image.");
     printf("\nHELP        Affiche des informations sur les commandes de CIMP.");
     printf("\nNEW         Ouvre une nouvelle fenetre.");
-    printf("\nQUITTER     Quitte le programme CIMP.");
+    printf("\nQUIT        Quitte le programme CIMP.");
     printf("\nOPEN        Charge une image en memoire.");
     printf("\nPASTE       Colle dans une region de l'image.");
     printf("\nSELECT      Selectionne une region de l'image.");
@@ -130,6 +130,16 @@ void help(char* comm){
       printf("\n  paste - colle une region de l'image.");
       printf("\n\nSYNTAXE");
       printf("\n  paste [x] [y] [largeur] [hauteur]");
+      printf("\n\nDESCRIPTION");
+      printf("\n\nEXEMPLES");
+      return;
+    }
+    if(strcasecmp(comm,"quit") == 0){
+      printf("\nQUIT                 Manuel d'utilisation CIMP                 QUIT");
+      printf("\n\nNOM");
+      printf("\n  quit - quitte le programme cimp.");
+      printf("\n\nSYNTAXE");
+      printf("\n  quit");
       printf("\n\nDESCRIPTION");
       printf("\n\nEXEMPLES");
       return;

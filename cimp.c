@@ -1,26 +1,9 @@
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include "fcntl.h"
-#include <unistd.h>
-#include <readline/readline.h>
-#include <strings.h>
-#include <assert.h>
 
 #include "cimp.h"
-#include "Auxiliaires.h"
-#include "Fichier.h"
-#include "Edition.h"
-#include "Selection.h"
-
-
+  
 SDL_Event event;
-SDL_Window* window[MAX_WIN];
-SDL_Renderer *renderer;
-SDL_Texture *texture;
+structWindow* window[MAX_WIN];
+SDL_Renderer *rendererCache;
 int  nbWindows = 0, iWindow = 0;
 
 void init_cimp()
@@ -123,13 +106,10 @@ int parse(char **cmd){
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       selectWindow(window[iWindow]);
-      printf("iwindow %d",iWindow);
     }
     if (args_length(cmd) == 5){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       selectRect(window[iWindow],cmd[1],cmd[2],cmd[3],cmd[4]);
-      
-      printf("iwindow %d",iWindow);
     }
   }
   
@@ -175,7 +155,7 @@ void cimp() {
       case SDL_WINDOWEVENT :
 	if (event.window.event == SDL_WINDOWEVENT_CLOSE){
 	  iWindow = findWindowID(window,event.window.windowID,nbWindows);
-	  SDL_DestroyWindow(window[iWindow]);
+	  SDL_DestroyWindow(window[iWindow]->window);
 	  nbWindows--;
 	  decalWindows(window,iWindow,nbWindows);
 	}

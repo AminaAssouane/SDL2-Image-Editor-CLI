@@ -1,6 +1,6 @@
 
 #include "cimp.h"
-  
+
 SDL_Event event;
 structWindow* window[MAX_WIN];
 SDL_Renderer *rendererCache;
@@ -143,6 +143,118 @@ int parse(char **cmd){
       exit(0);
     }
   }
+
+  //------------------------------ * TRANSFORMATIONS * -------------------------------//
+
+  if(strcasecmp(cmd[0], "grey") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //mise_en_niveaux_de_gris();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "negative") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //mise_en_negatif();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "blacknwhite") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //noir_et_blanc();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "replace_color") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //remplacement_couleur();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "fill_color") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //remplissage_par_une_couleur();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "light") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //ajustement_luminosite();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "contrast") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //remplacement_contraste();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "symmetry") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //symmetry();
+      return 0;
+    }
+  }
+
+  if(strcasecmp(cmd[0], "rotate") == 0){
+    if(args_length(cmd) > 1){
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+      return 0;
+    }
+    else{
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      //rotation();
+      return 0;
+    }
+  }
+
+
   return 2;
 }
 

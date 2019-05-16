@@ -1,9 +1,5 @@
 /* Module qui contient les fonctions de transformation de l'image */
 
-#include <SDL2/SDL.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <SDL2/SDL2_rotozoom.h>//instalation de la bibliothèque SDL2_gfx
 #include "Transformations.h"
 
 

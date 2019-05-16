@@ -1,8 +1,12 @@
+#ifndef TRANSFORMATIONS_H
+#define TRANSFORMATIONS_H
+
+
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL2/SDL2_rotozoom.h>
+
 
 
 
@@ -29,3 +33,5 @@ SDL_Surface ajustement_contraste(SDL_Surface image, int n);
 SDL_Surface symetrie(SDL_Surface image, char *type);
 SDL_Surface rotation(SDL_Surface image, int n);
 
+
+#endif 

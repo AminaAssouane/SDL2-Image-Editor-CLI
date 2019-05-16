@@ -18,6 +18,7 @@
 #include "Fichier.h"
 #include "Edition.h"
 #include "Selection.h"
+#include "Transformations.h"
 #include "Types.h"
 
 #define SEPARATEUR " \n\r\a\t"

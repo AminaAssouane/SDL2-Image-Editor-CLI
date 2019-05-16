@@ -13,31 +13,18 @@ structWindow* newWindow(char* larg, char* haut){
   
   myWindow->window = SDL_CreateWindow("Nouvelle Fenetre",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,largeur,hauteur,SDL_WINDOW_SHOWN);
   assert(myWindow->window != NULL);
-  
-  myWindow->renderer = SDL_CreateRenderer(myWindow->window,-1,SDL_RENDERER_ACCELERATED);
-  assert(myWindow->renderer != NULL);
-
-  
-  myWindow->texture = SDL_CreateTexture(myWindow->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,largeur,hauteur);
-  assert(myWindow->texture != NULL);
 
   myWindow->surface = SDL_GetWindowSurface(myWindow->window);
   assert(myWindow->surface != NULL);
 
-  // On colle une texture de couleure blanche sur l'ecran car on en aura besoin
-  // pour dessiner plus tard
-  /*SDL_SetRenderTarget(renderer, texture);
-  SDL_SetRenderDrawColor(renderer,255,255,255,255);
-  SDL_RenderClear(renderer);  
-  SDL_SetRenderTarget(renderer, NULL);
-  SDL_RenderCopy(renderer,texture,NULL,NULL);
-  SDL_RenderPresent(renderer);
-  SDL_UpdateWindowSurface(window);
+  SDL_Surface* whiteCanvas = SDL_CreateRGBSurface(0,largeur,hauteur,32,0,0,0,0);
+  assert(whiteCanvas != NULL);
+  
+  
+  SDL_FillRect(whiteCanvas, NULL, SDL_MapRGB(whiteCanvas->format, 255, 255, 255));
+  SDL_BlitSurface(whiteCanvas,NULL,myWindow->surface,NULL);
+  SDL_UpdateWindowSurface(myWindow->window);
 
-  // On remet la cible pour pouvoir l'utiliser par la suite
-  SDL_SetRenderTarget(renderer, texture);*/
-
-  // On retourne la fenêtre créée*/
   return myWindow;
 }
 
@@ -70,26 +57,22 @@ void sauvegarde(structWindow* myWindow, char* opt, char* name){
     /* Par défault, on enregistre l'image en format bmp. */
     strcat(name,".bmp");
     SDL_SaveBMP(image,name);
-    SDL_FreeSurface(image);
     return;
   }
   else {
     if (strcasecmp(opt,"-png") == 0){
       strcat(name,".png");
       IMG_SavePNG(image,name);
-      SDL_FreeSurface(image);
       return;
     }
     if (strcasecmp(opt,"-jpg") == 0){
       strcat(name,".jpg");
       IMG_SaveJPG(image,name,1);
-      SDL_FreeSurface(image);
       return;
     }
     if (strcasecmp(opt,"-bmp") == 0){
       strcat(name,".bmp");
       SDL_SaveBMP(image,name);
-      SDL_FreeSurface(image);
       return;
     }
     else {

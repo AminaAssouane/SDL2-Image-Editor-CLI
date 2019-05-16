@@ -162,9 +162,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      SDL_Surface * tmp = mise_en_niveaux_de_gris((*window)->surface); 
-      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
-      SDL_UpdateWindowSurface((*window)->window);
+      mise_en_niveaux_de_gris(window[iWindow]->surface); 
+      SDL_UpdateWindowSurface(window[iWindow]->window);
       return 0;
     }
   }
@@ -176,9 +175,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      SDL_Surface * tmp = mise_en_negatif((*window)->surface); 
-      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
-      SDL_UpdateWindowSurface((*window)->window);
+      mise_en_negatif(window[iWindow]->surface); 
+      SDL_UpdateWindowSurface(window[iWindow]->window);
       return 0;
     }
   }
@@ -190,9 +188,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      SDL_Surface * tmp = noir_et_blanc((*window)->surface); 
-      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
-      SDL_UpdateWindowSurface((*window)->window);
+      noir_et_blanc(window[iWindow]->surface); 
+      SDL_UpdateWindowSurface(window[iWindow]->window);
       return 0;
     }
   }
@@ -228,8 +225,7 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      SDL_Surface * tmp = ajustement_luminosite((*window)->surface, cmd[1]); 
-      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
+      ajustement_luminosite(window[iWindow]->surface, cmd[1]); 
       SDL_UpdateWindowSurface((*window)->window);
       return 0;
     }
@@ -242,9 +238,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      SDL_Surface * tmp = ajustement_contraste((*window)->surface); 
-      SDL_BlitSurface(tmp, NULL, tmp, NULL); 
-      SDL_UpdateWindowSurface((*window)->window);
+      ajustement_contraste(window[iWindow]->surface); 
+      SDL_UpdateWindowSurface(window[iWindow]->window);
       return 0;
     }
   }

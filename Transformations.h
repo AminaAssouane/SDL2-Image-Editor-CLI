@@ -2,13 +2,16 @@
 #define TRANSFORMATIONS_H
 
 
+#include <SDL.h>
+#include <SDL_image.h>
 //#include <SDL2/SDL.h>
-//#include <SDL_image.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+//#include <SDL2/SDL_image.h>
 #include <stdlib.h>
 #include <stdio.h>
-/*#include <SDL2/SDL2_rotozoom.h>*/
+#include <string.h>
+//#include <SDL2/SDL2_rotozoom.h>
+
+#include "Types.h"
 
 
 #define WINDOW_WIDTH 800

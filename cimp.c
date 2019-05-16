@@ -109,17 +109,26 @@ int parse(char **cmd){
   }
 
   if (strcasecmp(cmd[0],"select") == 0){
-    if ((args_length(cmd) != 1) && (args_length(cmd) != 5)){
-      printf("\nLa syntaxe de la commande n'est pas correcte.");
-      return 0;
-    }
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selectRect(window[iWindow]); 
+      selectRect(window[iWindow]);
+      return 1;
+    }
+    if (args_length(cmd) == 2){
+      printf("\ntwo arguments");
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      selectMouse(window[iWindow]);
+      printf("\ndone");
+      return 1;
     }
     if (args_length(cmd) == 5){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       selectRect(window[iWindow]);
+      return 1;
+    }
+    else {
+      printf("\nLa syntaxe de la commande n'est pas correcte.");
+      return 0;
     }
   }
   

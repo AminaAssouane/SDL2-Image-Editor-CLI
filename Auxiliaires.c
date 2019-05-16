@@ -30,8 +30,11 @@ void icon(structWindow* myWindow, char* comm){
 void help(char* comm){
   if (comm == NULL){
     printf("\nListe des commandes possibles :\n");
+    printf("\n    [CIRCLE]           Dessine un cercle sur la fenetre. ");
     printf("\n    [COPY]             Copie une region de l'image.");
     printf("\n    [CUT]              Coupe une region de l'image.");
+    printf("\n    [COLOR]            Choisir une couleur.");
+    printf("\n    [DRAW]             Permet de dessiner avec la souris.");
     printf("\n    [HELP]             Affiche des informations sur les commandes de CIMP.");
     printf("\n    [ICON]             Ajoute une icone a la fenetre.");
     printf("\n    [NEW]              Ouvre une nouvelle fenetre.");
@@ -115,7 +118,15 @@ void help(char* comm){
       printf("\n\nSYNTAXE");
       printf("\n  save [format] nom");
       printf("\n\nDESCRIPTION");
-      printf("\n\nEXEMPLES\n");
+      printf("\n  Sauvegarde la fenetre selectionnee sur le disque au format specifie par l'option [format].\n  Quand aucun format n'est specifie, sauvagarde l'image au format BMP.");
+      printf("\n\n  -PNG : Sauvegarde la fenetre selectionnee au format PNG, au chemin \"nom\".");
+      printf("\n  -JPG : Sauvegarde la fenetre selectionnee au format JPG, au chemin \"nom\".");
+      printf("\n  -BMP : Sauvegarde la fenetre selectionnee au format BMP, au chemin \"nom\".");
+      printf("\n\nEXEMPLES");
+      printf("\n  save ../apple");
+      printf("\n          Sauvegarde la fenetre selectionnee sous le nom \"apple.bmp\" dans le repertoire parent du repertoire actuel.");
+      printf("\n  save -png myimage");
+      printf("\n          Sauvegarde la fenetre selectionnee sous le nom \"myimage.png\" dans le repertoire actuel.\n");
       printf("\n******************************************************************\n");
       return;
     }

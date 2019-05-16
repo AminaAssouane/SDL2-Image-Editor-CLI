@@ -6,8 +6,7 @@
 #include <SDL_image.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-
+/*#include <SDL2/SDL2_rotozoom.h>*/
 
 
 #define WINDOW_WIDTH 800

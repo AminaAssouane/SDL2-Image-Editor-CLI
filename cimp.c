@@ -24,6 +24,7 @@ int args_length(char *args[]) {
 
 // split_line la ligne de commande pour obtenir les arguments
 char **split_line(char *line) {
+  printf("\nla line %s :",line);
     int pos = 0;
     char **tab;
     char *s;
@@ -39,6 +40,7 @@ char **split_line(char *line) {
     }
 
     tab[pos] = NULL;
+    printf("\net maintenant : %s %d %s",line,sizeof(tab),tab[pos-1]);
     return tab;
 }
 
@@ -48,23 +50,8 @@ int parse(char **cmd){
   if (args_length(cmd) == 0)
     return 0;
   
-  if (strcasecmp(cmd[0],"help") == 0){
-    if (args_length(cmd) > 2)
-      printf("Syntaxe incorrecte ! Consultez [help help]\n");
-    else
-      help(cmd[1]);
-    return 1;
-  }
 
-  else if (strcasecmp(cmd[0],"icon") == 0){
-    if (args_length(cmd) != 2)
-      printf("Syntaxe incorrecte ! Consultez [help icon]\n");
-    else {      
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      icon(window[iWindow],cmd[1]);
-    }
-    return 1;
-  }
+  //------------------------------ * FICHIER * -------------------------------//
   
   else if (strcasecmp(cmd[0],"new") == 0){
     if (args_length(cmd) < 3){
@@ -108,6 +95,8 @@ int parse(char **cmd){
     }
   }
 
+  //------------------------------ * SELECTION * -------------------------------//
+
   else if (strcasecmp(cmd[0],"select") == 0){
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
@@ -140,19 +129,19 @@ int parse(char **cmd){
     else {
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       deselectionner(window[iWindow]);
+      return 1;
     }
   }
 
-  else if (strcasecmp(cmd[0],"quit") == 0){
-    if (args_length(cmd) > 1){
-      printf("Syntaxe incorrecte ! Consultez [help quit]\n");
-      return 0;
-    }
-    else {
-      exit(0);
-    }
-  }
+  //-------------------------------- * EDITION * ---------------------------------//
+  
 
+
+  //-------------------------------- * DESSIN * ---------------------------------//
+
+
+
+  
   //------------------------------ * TRANSFORMATIONS * -------------------------------//
 
   else if(strcasecmp(cmd[0], "grey") == 0){
@@ -271,7 +260,37 @@ int parse(char **cmd){
     printf("Commande non valide ! consultez le menu help\n");
   }
 
+  //------------------------------ * AUXILIAIRES * -------------------------------//
 
+  if (strcasecmp(cmd[0],"help") == 0){
+    if (args_length(cmd) > 2)
+      printf("Syntaxe incorrecte ! Consultez [help help]\n");
+    else
+      help(cmd[1]);
+    return 1;
+  }
+
+
+  else if (strcasecmp(cmd[0],"quit") == 0){
+    if (args_length(cmd) > 1){
+      printf("Syntaxe incorrecte ! Consultez [help quit]\n");
+      return 0;
+    }
+    else {
+      exit(0);
+    }
+  }
+ 
+  else if (strcasecmp(cmd[0],"icon") == 0){
+    if (args_length(cmd) != 2)
+      printf("Syntaxe incorrecte ! Consultez [help icon]\n");
+    else {      
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      icon(window[iWindow],cmd[1]);
+    }
+    return 1;
+  }
+  
   return 2;
 }
 

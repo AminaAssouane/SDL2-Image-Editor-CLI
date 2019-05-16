@@ -29,8 +29,8 @@ char **split_line(char *line) {
     char *s;
     
     // alloue un tableau qui contiendra les arguments
-    if ((tab = malloc(sizeof(char*) * SIZE_CMD)) == NULL)
-        exit(1);
+    assert ((tab = malloc(sizeof(char*) * SIZE_CMD)) != NULL);
+
 
     s = strtok(line, SEPARATEUR);
     while (s != NULL) {
@@ -298,6 +298,7 @@ void cimp() {
 	args = split_line(line);
 	parse(args);
 	free(line);
+	free(args);
 	break;
    
       default :

@@ -12,7 +12,7 @@
 
 void colorSelect();
 void selectWindow(structWindow* window);
-void selectRect(structWindow* window, char* x, char* y, char* largeur, char* hauteur);
+void selectRect(structWindow* window);
 void deselectionner(structWindow* window);
 
 

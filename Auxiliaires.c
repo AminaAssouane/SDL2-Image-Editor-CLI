@@ -20,6 +20,11 @@ void decalWindows(structWindow* tabW[], int i, int nbWindows){
   tabW[i] = tabW[nbWindows];  
 }
 
+void icon(structWindow* myWindow, char* comm){
+  SDL_Surface* icone = IMG_Load(comm);
+  assert(icone != NULL);
+  SDL_SetWindowIcon(myWindow->window,icone);
+}
 
 /* Commande "help" qui affiche les informations sur toute les commandes.*/
 void help(char* comm){
@@ -28,6 +33,7 @@ void help(char* comm){
     printf("\n    [COPY]             Copie une region de l'image.");
     printf("\n    [CUT]              Coupe une region de l'image.");
     printf("\n    [HELP]             Affiche des informations sur les commandes de CIMP.");
+    printf("\n    [ICON]             Ajoute une icone a la fenetre.");
     printf("\n    [NEW]              Ouvre une nouvelle fenetre.");
     printf("\n    [OPEN]             Charge une image en memoire.");
     printf("\n    [PASTE]            Colle dans une region de l'image.");
@@ -36,10 +42,10 @@ void help(char* comm){
     printf("\n    [UNSELECT]         Deselectionne la selection actuelle.");
    
     printf("\n    [GREY]             Mise en niveaux de gris.");
-    printf("\n    [NEGATIVE]         Mise en négatif.");
+    printf("\n    [NEGATIVE]         Mise en negatif.");
     printf("\n    [BLACKNWHITE]      Mise en noir et blanc.");
-    printf("\n    [REPLACE_COLOR]    Remplacement d'une couleur donnée.");
-    printf("\n    [FILL_COLOR]       Remplissage par une couleur donnée.");
+    printf("\n    [REPLACE_COLOR]    Remplacement d'une couleur donnee.");
+    printf("\n    [FILL_COLOR]       Remplissage par une couleur donnee.");
     printf("\n    [LIGHT]            Ajustement de la luminosité.");
     printf("\n    [CONTRAST]         Ajustement du contraste.");
     printf("\n    [SYMMETRY]         Symétrie verticale et horizontale");
@@ -249,6 +255,19 @@ void help(char* comm){
       printf("\n  Rotation de l'image par un multiple de 90°.");
       printf("\n     [n] : le nombre de rotation souhaité");
       printf("\n\nEXEMPLES\n");
+      printf("\n******************************************************************\n");
+      return;
+    }
+     if(strcasecmp(comm,"ICON") == 0){
+      printf("\n******************* Manuel d'utilisation CIMP ********************");
+      printf("\n\nNOM");
+      printf("\n  icon - change l'icone de la fenetre.");
+      printf("\n\nSYNTAXE");
+      printf("\n  icon chemin");
+      printf("\n\nDESCRIPTION");
+      printf("\n  Ajoute l'icone specifiee par le chemin \"chemin\" comme icone de notre fenetre.");
+      printf("\n\nEXEMPLES");
+      printf("\n  icon apple.png\n");  
       printf("\n******************************************************************\n");
       return;
     }

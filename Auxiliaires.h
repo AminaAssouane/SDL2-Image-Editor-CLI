@@ -15,6 +15,7 @@
 
 int findWindowID(structWindow* tabW[], Uint32 wID, int nbWindows);
 void decalWindows(structWindow* tabW[], int i, int nbWindows);
+void icon(structWindow* myWindow, char* comm);
 void help(char* commm);
 
 #endif 

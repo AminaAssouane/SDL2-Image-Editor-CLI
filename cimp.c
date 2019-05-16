@@ -55,6 +55,16 @@ int parse(char **cmd){
       help(cmd[1]);
     return 1;
   }
+
+  if (strcasecmp(cmd[0],"icon") == 0){
+    if (args_length(cmd) != 2)
+      printf("\nLa syntaxe de la commande n'est pas correcte");
+    else {      
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      icon(window[iWindow],cmd[1]);
+    }
+    return 1;
+  }
   
   if (strcasecmp(cmd[0],"new") == 0){
     if (args_length(cmd) < 3){
@@ -105,11 +115,11 @@ int parse(char **cmd){
     }
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selectWindow(window[iWindow]);
+      selectRect(window[iWindow]); 
     }
     if (args_length(cmd) == 5){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selectRect(window[iWindow],cmd[1],cmd[2],cmd[3],cmd[4]);
+      selectRect(window[iWindow]);
     }
   }
   

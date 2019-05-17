@@ -14,13 +14,13 @@
 #include <strings.h>
 #include <assert.h>
 
-#include "Auxiliaires.h"
-#include "Fichier.h"
-#include "Edition.h"
-#include "Selection.h"
-#include "Transformations.h"
-#include "Couleurs.h"
-#include "Dessin.h"
+#include "Auxiliaires.c"
+#include "Fichier.c"
+#include "Edition.c"
+#include "Selection.c"
+#include "Transformations.c"
+#include "Couleurs.c"
+#include "Dessin.c"
 
 #define SEPARATEUR " \n\r\a\t"
 #define SIZE_CMD 200

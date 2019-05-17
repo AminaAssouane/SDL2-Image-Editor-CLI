@@ -19,8 +19,8 @@
 #include "Edition.h"
 #include "Selection.h"
 #include "Transformations.h"
-#include "Types.h"
 #include "Couleurs.h"
+#include "Dessin.h"
 
 #define SEPARATEUR " \n\r\a\t"
 #define SIZE_CMD 200

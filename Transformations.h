@@ -11,7 +11,7 @@
 #include <string.h>
 //#include <SDL2/SDL2_rotozoom.h>
 
-#include "Types.h"
+
 
 
 #define WINDOW_WIDTH 800
@@ -36,7 +36,7 @@ SDL_Surface *ajustement_contraste(SDL_Surface *image);
 
 SDL_Surface *symetrie(SDL_Surface *image, char *type);
 //SDL_Surface *rotation(SDL_Surface *image);
-SDL_Surface *rotation(structWindow * window);
+SDL_Surface *rotation(SDL_Window * window);
 
 
 #endif 

@@ -5,52 +5,47 @@
 
 
 
-structWindow* newWindow(char* larg, char* haut){
-
-  structWindow* myWindow = malloc(sizeof(structWindow));
+SDL_Window* newWindow(char* larg, char* haut){
   
   int largeur = atoi(larg), hauteur = atoi(haut);
   
-  myWindow->window = SDL_CreateWindow("Nouvelle Fenetre",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,largeur,hauteur,SDL_WINDOW_SHOWN);
-  assert(myWindow->window != NULL);
+  SDL_Window* myWindow = SDL_CreateWindow("Nouvelle Fenetre",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,largeur,hauteur,SDL_WINDOW_SHOWN);
+  assert(myWindow != NULL);
 
-  myWindow->surface = SDL_GetWindowSurface(myWindow->window);
-  assert(myWindow->surface != NULL);
+  SDL_Surface* surface = SDL_GetWindowSurface(myWindow);
+  assert(surface != NULL);
 
   SDL_Surface* whiteCanvas = SDL_CreateRGBSurface(0,largeur,hauteur,32,0,0,0,0);
   assert(whiteCanvas != NULL);
   
   
   SDL_FillRect(whiteCanvas, NULL, SDL_MapRGB(whiteCanvas->format, 255, 255, 255));
-  SDL_BlitSurface(whiteCanvas,NULL,myWindow->surface,NULL);
-  SDL_UpdateWindowSurface(myWindow->window);
+  SDL_BlitSurface(whiteCanvas,NULL,surface,NULL);
+  SDL_UpdateWindowSurface(myWindow);
 
   return myWindow;
 }
 
-structWindow* ouvrir(char *adresse){
+SDL_Window* ouvrir(char *adresse){
   
-  structWindow* myWindow = malloc(sizeof(structWindow));
-  assert(myWindow != NULL);
-
   SDL_Surface* image = IMG_Load(adresse);
   assert(image != NULL);
 
-  myWindow->window = SDL_CreateWindow(adresse,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,image->w,image->h,SDL_WINDOW_SHOWN);
-  assert(myWindow->window != NULL);
+  SDL_Window* myWindow = SDL_CreateWindow(adresse,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,image->w,image->h,SDL_WINDOW_SHOWN);
+  assert(myWindow != NULL);
   
-  myWindow->surface = SDL_GetWindowSurface(myWindow->window);
-  assert(myWindow->surface != NULL);  
+  SDL_Surface* surface = SDL_GetWindowSurface(myWindow);
+  assert(surface != NULL);  
   
-  SDL_BlitSurface(image, NULL, myWindow->surface, NULL);
-  SDL_UpdateWindowSurface(myWindow->window);
+  SDL_BlitSurface(image, NULL, surface, NULL);
+  SDL_UpdateWindowSurface(myWindow);
   
   return myWindow;
 }
 
 
-void sauvegarde(structWindow* myWindow, char* opt, char* name){
-  SDL_Surface* image = myWindow->surface;
+void sauvegarde(SDL_Window* myWindow, char* opt, char* name){
+  SDL_Surface* image = SDL_GetWindowSurface(myWindow);
   assert(image != NULL);
   
   if (opt == NULL){

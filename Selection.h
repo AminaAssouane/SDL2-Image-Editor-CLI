@@ -13,13 +13,12 @@
 #include <unistd.h>
 #include <assert.h>
 
-#include "Types.h"
 
 void colorSelect();
-void selectWindow(structWindow* window);
-void selectMouse(structWindow* myWindow);
-void selectRect(structWindow* window);
-void deselectionner(structWindow* window);
+void selectWindow(SDL_Window* window);
+void selectMouse(SDL_Window* myWindow);
+void selectRect(SDL_Window* window);
+void deselectionner(SDL_Window* window);
 
 
 #endif

@@ -5,9 +5,9 @@
 
 
 /* Fonction qui trouve l'indice d'une fenêtre dans la liste "window[]" après avoir cliqué dessus */
-int findWindowID(structWindow* tabW[], Uint32 wID, int nbWindows){
+int findWindowID(SDL_Window* tabW[], Uint32 wID, int nbWindows){
   for (int i = 0; i < nbWindows; i++){
-    if (SDL_GetWindowID(tabW[i]->window) == wID){
+    if (SDL_GetWindowID(tabW[i]) == wID){
       return i;
     }
   }
@@ -16,14 +16,14 @@ int findWindowID(structWindow* tabW[], Uint32 wID, int nbWindows){
 }
 
 /* Fonction qui réarrange les fenêtre dans la liste "window[]" après la suppression d'une fenêtre */
-void decalWindows(structWindow* tabW[], int i, int nbWindows){
+void decalWindows(SDL_Window* tabW[], int i, int nbWindows){
   tabW[i] = tabW[nbWindows];  
 }
 
-void icon(structWindow* myWindow, char* comm){
+void icon(SDL_Window* myWindow, char* comm){
   SDL_Surface* icone = IMG_Load(comm);
   assert(icone != NULL);
-  SDL_SetWindowIcon(myWindow->window,icone);
+  SDL_SetWindowIcon(myWindow,icone);
 }
 
 /* Commande "help" qui affiche les informations sur toute les commandes.*/

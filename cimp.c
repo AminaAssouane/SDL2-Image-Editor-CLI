@@ -2,7 +2,7 @@
 #include "cimp.h"
 
 SDL_Event event;
-structWindow* window[MAX_WIN];
+SDL_Window* window[MAX_WIN];
 Uint32 couleur;
 int  nbWindows = 0, iWindow = 0;
 
@@ -104,10 +104,8 @@ int parse(char **cmd){
       return 1;
     }
     if (args_length(cmd) == 2){
-      printf("\ntwo arguments");
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       selectMouse(window[iWindow]);
-      printf("\ndone");
       return 1;
     }
     if (args_length(cmd) == 5){
@@ -142,40 +140,120 @@ int parse(char **cmd){
   else if (strcasecmp(cmd[0],"color") == 0){
     if (args_length(cmd) == 2){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      couleur = color(window[iWindow]->surface,cmd[1]);
+      couleur = color(SDL_GetWindowSurface(window[iWindow]),cmd[1]);
       return 1;
     }
     if (args_length(cmd) == 4){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      couleur = color(window[iWindow]->surface,cmd[1],cmd[2],cmd[3]);
+      couleur = colorRGB(SDL_GetWindowSurface(window[iWindow]),cmd[1],cmd[2],cmd[3]);
       return 1;
     }
     else {
       printf("\nSyntaxe incorrecte ! Consultez \"help color\".\n");
+      return 0;
+    }
+  }
+
+  else if (strcasecmp(cmd[0],"clear") == 0){
+    if (args_length(cmd) == 1){
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      clear(SDL_GetWindowSurface(window[iWindow]), color(SDL_GetWindowSurface(window[iWindow]),"white"));
+      SDL_UpdateWindowSurface(window[iWindow]);
+      return 1;
+    }
+    else {
+      printf("\nSyntaxe incorrecte ! Consultez \"help clear\".\n");
       return 0;
     }
   }
 
   else if (strcasecmp(cmd[0],"point") == 0){
-    if (args_length(cmd) == 2){
+    if (args_length(cmd) == 3){
+      int x = atoi(cmd[1]), y = atoi(cmd[2]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      couleur = color(window[iWindow]->surface,cmd[1]);
-      return 1;
-    }
-    if (args_length(cmd) == 4){
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      couleur = color(window[iWindow]->surface,cmd[1],cmd[2],cmd[3]);
+      drawPointSafe(SDL_GetWindowSurface(window[iWindow]),x,y,couleur);
+      SDL_UpdateWindowSurface(window[iWindow]);
       return 1;
     }
     else {
-      printf("\nSyntaxe incorrecte ! Consultez \"help color\".\n");
+      printf("\nSyntaxe incorrecte ! Consultez \"help point\".\n");
       return 0;
     }
   }
 
+  else if (strcasecmp(cmd[0],"horizontal") == 0){
+    if (args_length(cmd) == 4){      
+      int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]);
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      ligneHorizontale(SDL_GetWindowSurface(window[iWindow]),x,y,l,couleur);
+      SDL_UpdateWindowSurface(window[iWindow]);
+      return 1;
+    }
+    else {
+      printf("\nSyntaxe incorrecte ! Consultez \"help horizontal\".\n");
+      return 0;
+    }
+  }
+
+  else if (strcasecmp(cmd[0],"vertical") == 0){
+    if (args_length(cmd) == 4){
+      int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]);
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      ligneVerticale(SDL_GetWindowSurface(window[iWindow]),x,y,l,couleur);
+      SDL_UpdateWindowSurface(window[iWindow]);
+      return 1;
+    }
+    else {
+      printf("\nSyntaxe incorrecte ! Consultez \"help vertical\".\n");
+      return 0;
+    }
+  }
+  
+  else if (strcasecmp(cmd[0],"rectangle") == 0){
+    if (args_length(cmd) == 5){     
+      int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]), h = atoi(cmd[4]);
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      rectangle(SDL_GetWindowSurface(window[iWindow]),x,y,l,h,couleur);
+      SDL_UpdateWindowSurface(window[iWindow]);
+      return 1;
+    }
+    else {
+      printf("\nSyntaxe incorrecte ! Consultez \"help rectangle\".\n");
+      return 0;
+    }
+  }
+
+  else if (strcasecmp(cmd[0],"circle") == 0){
+    if (args_length(cmd) == 4){
+      int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]);
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      cercle(SDL_GetWindowSurface(window[iWindow]),x,y,l,couleur);
+      SDL_UpdateWindowSurface(window[iWindow]);
+      printf("\nupdated");
+      return 1;
+    }
+    else {
+      printf("\nSyntaxe incorrecte ! Consultez \"help circle\".\n");
+      return 0;
+    }
+  }
+
+  else if (strcasecmp(cmd[0],"disk") == 0){
+    if (args_length(cmd) == 4){
+      int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]);
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      disque(window[iWindow],x,y,l,couleur);
+      //SDL_UpdateWindowSurface(window[iWindow]);
+      return 1;
+    }
+    else {
+      printf("\nSyntaxe incorrecte ! Consultez \"help disk\".\n");
+      return 0;
+    }
+  }
   
   //------------------------------ * TRANSFORMATIONS * -------------------------------//
-
+  /*
   else if(strcasecmp(cmd[0], "grey") == 0){
     if(args_length(cmd) != 1){
       printf("Syntaxe incorrecte ! Consultez [help grey]\n");
@@ -183,8 +261,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      mise_en_niveaux_de_gris(window[iWindow]->surface); 
-      SDL_UpdateWindowSurface(window[iWindow]->window);
+      mise_en_niveaux_de_gris(SDL_GetWindowSurface(window[iWindow])); 
+      SDL_UpdateWindowSurface(window[iWindow]);
       return 0;
     }
   }
@@ -196,8 +274,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      mise_en_negatif(window[iWindow]->surface); 
-      SDL_UpdateWindowSurface(window[iWindow]->window);
+      mise_en_negatif(SDL_GetWindowSurface(window[iWindow])); 
+      SDL_UpdateWindowSurface(window[iWindow]);
       return 0;
     }
   }
@@ -209,8 +287,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      noir_et_blanc(window[iWindow]->surface); 
-      SDL_UpdateWindowSurface(window[iWindow]->window);
+      noir_et_blanc(SDL_GetWindowSurface(window[iWindow])); 
+      SDL_UpdateWindowSurface(window[iWindow]);
       return 0;
     }
   }
@@ -246,8 +324,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      ajustement_luminosite(window[iWindow]->surface, cmd[1]); 
-      SDL_UpdateWindowSurface((*window)->window);
+      ajustement_luminosite(SDL_GetWindowSurface(window[iWindow]), cmd[1]); 
+      SDL_UpdateWindowSurface(window[iWindow]);
       return 0;
     }
   }
@@ -259,8 +337,8 @@ int parse(char **cmd){
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      ajustement_contraste(window[iWindow]->surface); 
-      SDL_UpdateWindowSurface(window[iWindow]->window);
+      ajustement_contraste(SDL_GetWindowSurface(window[iWindow])); 
+      SDL_UpdateWindowSurface(window[iWindow]);
       return 0;
     }
   }
@@ -290,7 +368,7 @@ int parse(char **cmd){
   }
   else{
     printf("Commande non valide ! consultez le menu help\n");
-  }
+    }*/
 
   //------------------------------ * AUXILIAIRES * -------------------------------//
 
@@ -345,7 +423,7 @@ void cimp() {
       case SDL_WINDOWEVENT :
 	if (event.window.event == SDL_WINDOWEVENT_CLOSE){
 	  iWindow = findWindowID(window,event.window.windowID,nbWindows);
-	  SDL_DestroyWindow(window[iWindow]->window);
+	  SDL_DestroyWindow(window[iWindow]);
 	  nbWindows--;
 	  decalWindows(window,iWindow,nbWindows);
 	}

@@ -8,8 +8,7 @@
 #include <strings.h>
 #include <assert.h>
 
-#include "Types.h"
 
-structWindow* newWindow();
-structWindow* ouvrir(char *adresse);
-void sauvegarde(structWindow* window, char* opt, char* name);
+SDL_Window* newWindow();
+SDL_Window* ouvrir(char *adresse);
+void sauvegarde(SDL_Window* window, char* opt, char* name);

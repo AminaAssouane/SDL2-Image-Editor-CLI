@@ -16,9 +16,9 @@ void drawPointSafe(SDL_Surface* image, int x, int y, Uint32 coul)
 }
 
 /* Efface notre fenetre */
-void clear(SDL_Surface* image)
+void clear(SDL_Surface* image, Uint32 coul)
 {
-  SDL_FillRect(image, NULL, couleurs[C_BLANC]);
+  SDL_FillRect(image, NULL, coul);
 }
 
 /* Dessine une ligne horizontale */
@@ -57,7 +57,7 @@ void rectangle(SDL_Surface* image, int x, int y, int w, int h, Uint32 coul)
 }
 
 /* Dessine un cercle */
-void cercle(SDL_Surface* image, int cx, int cy, int rayon, int coul)
+void cercle(SDL_Surface* image, int cx, int cy, int rayon, Uint32 coul)
 {
   int d, y, x;
  
@@ -87,8 +87,9 @@ void cercle(SDL_Surface* image, int cx, int cy, int rayon, int coul)
 }
 
 /* Dessine un disque */
-void disque(SDL_Surface* image, int cx, int cy, int rayon, int coul)
+void disque(SDL_Window* window, int cx, int cy, int rayon, Uint32 coul)
 {
+  SDL_Surface* image = SDL_GetWindowSurface(window);
   int d, y, x;
  
   d = 3 - (2 * rayon);
@@ -110,4 +111,5 @@ void disque(SDL_Surface* image, int cx, int cy, int rayon, int coul)
  
     x++;
   }
+  SDL_UpdateWindowSurface(window);
 }

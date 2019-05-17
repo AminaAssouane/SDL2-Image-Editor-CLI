@@ -224,7 +224,7 @@ SDL_Surface *symetrie(SDL_Surface *image, char *type){
   return tmp;
 }*/
 
-SDL_Surface *rotation(structWindow * window){
+SDL_Surface *rotation(SDL_Window * window){
   return window->surface = SDL_GetWindowSurface(window->window);
 
 }

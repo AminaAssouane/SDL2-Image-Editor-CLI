@@ -9,7 +9,7 @@ enum colors {
 };
 
 Uint32 color(SDL_Surface *image, char *string){
-  int color = stringToEnumColor(string);
+  int color = stringToEnum(string);
   return enumToColor(image, color);
 }
 
@@ -58,7 +58,7 @@ Uint32 enumToColor(SDL_Surface *affichage, int color)
   }
 }
 
-int stringToEnum(SDL_Surface *image, char *string){
+int stringToEnum(char *string){
   
   if (strcasecmp(string,"black") == 0)
     return BLACK;

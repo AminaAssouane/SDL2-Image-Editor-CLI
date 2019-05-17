@@ -11,11 +11,10 @@
 #include <strings.h>
 
 #include "Fichier.h"
-#include "Types.h"
 
-int findWindowID(structWindow* tabW[], Uint32 wID, int nbWindows);
-void decalWindows(structWindow* tabW[], int i, int nbWindows);
-void icon(structWindow* myWindow, char* comm);
+int findWindowID(SDL_Window* tabW[], Uint32 wID, int nbWindows);
+void decalWindows(SDL_Window* tabW[], int i, int nbWindows);
+void icon(SDL_Window* myWindow, char* comm);
 void help(char* commm);
 
 #endif 

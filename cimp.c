@@ -99,17 +99,20 @@ int parse(char **cmd){
   else if (strcasecmp(cmd[0],"select") == 0){
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selection = selectWindow(window[iWindow]);
+      deselectionner(selection);
+      selection = selectMouse(window[iWindow]);
       return 1;
     }
-    if (args_length(cmd) == 2){
+    if ((args_length(cmd) == 2) && (strcasecmp(cmd[1],"all") == 0)){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selection = selectMouse(window[iWindow]);
+      deselectionner(selection);
+      selection = selectWindow(window[iWindow]);
       return 1;
     }
     if (args_length(cmd) == 5){
       int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]), h = atoi(cmd[4]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      deselectionner(selection);
       selection = selectRect(window[iWindow],x,y,l,h);
       return 1;
     }
@@ -126,6 +129,7 @@ int parse(char **cmd){
     }
     else {
       deselectionner(selection);
+      selection = NULL;
       return 1;
     }
   }
@@ -138,8 +142,7 @@ int parse(char **cmd){
       return 0;
     }
     else {
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      copier(window[iWindow],selection);
+      copier(selection);
       return 1;
     }
   }
@@ -150,6 +153,11 @@ int parse(char **cmd){
       coller(window[iWindow],selection,cmd[1],cmd[2]);
       return 1;
     }
+    if (args_length(cmd) == 1){
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      collerSouris(window[iWindow]);
+      return 1;
+    }
     else {     
       printf("\nSyntaxe incorrecte ! Consultez \"help paste\"");
       return 0;
@@ -158,8 +166,7 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"cut") == 0){
     if (args_length(cmd) == 1){
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      couper(window[iWindow], selection);
+      couper(selection);
       return 1;
     }
     else {     
@@ -168,6 +175,16 @@ int parse(char **cmd){
     }
   }
 
+  else if (strcasecmp(cmd[0],"cutColor") == 0){
+    if (args_length(cmd) == 1){
+      couperColor(selection,couleur);
+      return 1;
+    }
+    else {     
+      printf("\nSyntaxe incorrecte ! Consultez \"help cut\"");
+      return 0;
+    }
+  }
 
   //-------------------------------- * DESSIN * ---------------------------------//
 
@@ -294,10 +311,17 @@ int parse(char **cmd){
       return 0;
     }
     else{
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      mise_en_niveaux_de_gris(SDL_GetWindowSurface(window[iWindow])); 
-      SDL_UpdateWindowSurface(window[iWindow]);
-      return 0;
+      if ((selection == NULL) || (selection->selection == 0)){
+	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+	return 0;
+      }
+      // iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      printf("mes coord : %d %d ...",(selection->rect).x,(selection->rect).w);
+      mise_en_niveaux_de_gris(selection);
+      SDL_UpdateWindowSurface(selection->window);     
+      free(selection);
+      selection = NULL;
+      return 1;
     }
   }
 
@@ -307,10 +331,15 @@ int parse(char **cmd){
       return 0;
     }
     else{
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      mise_en_negatif(SDL_GetWindowSurface(window[iWindow])); 
-      SDL_UpdateWindowSurface(window[iWindow]);
-      return 0;
+      if ((selection == NULL) || (selection->selection == 0)){
+	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+	return 0;
+      }
+      mise_en_negatif(selection); 
+      SDL_UpdateWindowSurface(selection->window);
+      free(selection);
+      selection = NULL;
+      return 1;
     }
   }
 
@@ -320,10 +349,15 @@ int parse(char **cmd){
       return 0;
     }
     else{
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      noir_et_blanc(SDL_GetWindowSurface(window[iWindow])); 
-      SDL_UpdateWindowSurface(window[iWindow]);
-      return 0;
+      if ((selection == NULL) || (selection->selection == 0)){
+	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+	return 0;
+      }
+      noir_et_blanc(selection); 
+      SDL_UpdateWindowSurface(selection->window);
+      free(selection);
+      selection = NULL;
+      return 1;
     }
   }
 
@@ -333,7 +367,10 @@ int parse(char **cmd){
       return 0;
     }
     else{
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      if ((selection == NULL) || (selection->selection == 0)){
+	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+	return 0;
+      }
       int r_old = atoi(cmd[1]);
       int g_old = atoi(cmd[2]);
       int b_old = atoi(cmd[3]);
@@ -346,9 +383,11 @@ int parse(char **cmd){
 
       SDL_Color color_old = create_color(r_old, g_old, b_old);
       SDL_Color color_new = create_color(r_new,g_new,b_new);
-      remplacement_couleur(SDL_GetWindowSurface(window[iWindow]), color_old, color_new, marge);
-      SDL_UpdateWindowSurface(window[iWindow]);
-      return 0;
+      remplacement_couleur(selection, color_old, color_new, marge);
+      SDL_UpdateWindowSurface(selection->window);
+      free(selection);
+      selection = NULL;
+      return 1;
     }
   }
 
@@ -358,24 +397,36 @@ int parse(char **cmd){
       return 0;
     }
     else{
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      if ((selection == NULL) || (selection->selection == 0)){
+	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+	return 0;
+      }
+      
       int r = atoi(cmd[1]);
       int g = atoi(cmd[2]);
       int b = atoi(cmd[3]);
       printf("%d\n", b);
       SDL_Color color = create_color(r,g,b);
 
-      remplissage_par_une_couleur(SDL_GetWindowSurface(window[iWindow]), color); 
-      SDL_UpdateWindowSurface(window[iWindow]);
-      return 0;
+      remplissage_par_une_couleur(selection, color); 
+      SDL_UpdateWindowSurface(selection->window);
+      free(selection);
+      selection = NULL;     
+      return 1;
     }
   }
 
   else if(strcasecmp(cmd[0], "light") == 0){
     if(args_length(cmd) == 2){
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      ajustement_luminosite(SDL_GetWindowSurface(window[iWindow]), cmd[1]); 
-      SDL_UpdateWindowSurface(window[iWindow]);
+       if ((selection == NULL) || (selection->selection == 0)){
+	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+	return 0;
+      }
+      
+      ajustement_luminosite(selection, cmd[1]); 
+      SDL_UpdateWindowSurface(selection->window);
+      free(selection);
+      selection = NULL;
       return 1;
     }
     else{
@@ -390,9 +441,15 @@ int parse(char **cmd){
       return 0;
     }
     else{
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      ajustement_contraste(SDL_GetWindowSurface(window[iWindow])); 
-      SDL_UpdateWindowSurface(window[iWindow]);
+       if ((selection == NULL) || (selection->selection == 0)){
+	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+	return 0;
+      }
+       
+      ajustement_contraste(selection); 
+      SDL_UpdateWindowSurface(selection->window);
+      free(selection);
+      selection = NULL;
       return 1;
     }
   }
@@ -410,7 +467,7 @@ int parse(char **cmd){
     }
   }
   
-  else if(strcasecmp(cmd[0], "rotate") == 0){
+  /*else if(strcasecmp(cmd[0], "rotate") == 0){
     if(args_length(cmd) != 1){
       printf("Syntaxe incorrecte ! Consultez \"help rotate\"\n");
       return 0;
@@ -422,7 +479,7 @@ int parse(char **cmd){
       
       return 0;
     }
-  }
+    }*/
     
 
   //------------------------------ * AUXILIAIRES * -------------------------------//
@@ -516,8 +573,6 @@ void cimp() {
       }
     }
   } while(strcasecmp(args[0],"quit") != 0);
-  free(line);
-  free(args);
   SDL_Quit();
 }
 

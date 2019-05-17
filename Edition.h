@@ -12,9 +12,10 @@
 
 #include "Selection.h"
 
-int couper(SDL_Window* window, Selection* region);
-int copier(SDL_Window* window, Selection* region);
+int copier(Selection* region);
 int coller(SDL_Window *window, Selection* region, char* x, char *y);
+int couper(Selection* region);
+int couperColor(Selection* region, Uint32 color);
 
 
 #endif

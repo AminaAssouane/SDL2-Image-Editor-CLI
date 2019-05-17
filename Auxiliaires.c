@@ -37,7 +37,7 @@ void help(char* comm){
     printf("\n    CONTRAST          Ajustement du contraste.");
     printf("\n    COPY              Copie une region de l'image.");
     printf("\n    CUT               Coupe une region de l'image.");
-    printf("\n    DRAW              Permet de dessiner avec la souris.");
+    printf("\n    CUTCOLOR          Coupe une region de l'image avec une couleur determinee.");
     printf("\n    DISK              Dessine un disque sur l'image.");
     printf("\n    FILL_COLOR        Remplissage par une couleur donnee.");
     printf("\n    GREY              Mise en niveaux de gris.");
@@ -50,7 +50,7 @@ void help(char* comm){
     printf("\n    OPEN              Charge une image en memoire.");
     printf("\n    PASTE             Colle dans une region de l'image.");
     printf("\n    REPLACE_COLOR     Remplacement d'une couleur donnee.");
-    printf("\n    ROTATE            Rotation de l'image.\n");
+    printf("\n    ROTATE            Rotation de l'image.");
     printf("\n    SAVE              Sauvegarde l'image.");
     printf("\n    SELECT            Selectionne une region de l'image.");
     printf("\n    SYMMETRY          Symétrie verticale et horizontale");
@@ -97,9 +97,16 @@ void help(char* comm){
     printf("\n\nNOM");
     printf("\n  select - selectionne une region de l'image.");
     printf("\n\nSYNTAXE");
+    printf("\n  select");
+    printf("\n  select all");
     printf("\n  select [x] [y] [largeur] [hauteur]");
     printf("\n\nDESCRIPTION");
-    printf("\n\nEXEMPLES\n");
+    printf("\n  select : permet de selectionner notre region a la souris. ");
+    printf("\n    /!\\ WARNING : Selectionnez avec la souris de haut en bas, et de gauche a droite. /!\\");
+    printf("\n  select all : permet de selectinner toute la fenetre.");
+    printf("\n  select [x] [y] [largeur] [hauteur] : permet de selectionner un rectangle en entrant ces coordonnees directement dans le prompt.");
+    printf("\n\nEXEMPLES");
+    printf("\n  select 50 50 100 100\n");
     printf("\n******************************************************************\n");
     return;
   }

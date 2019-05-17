@@ -16,6 +16,8 @@ main : 	$(OBJS)
 
 
 
+Dessin.o : Dessin.h
+
 main.o : main.h cimp.h
 
 cimp.o : cimp.h Auxiliaires.h Fichier.h Edition.h Selection.h  Transformations.h Couleurs.h Dessin.h Transformations.h
@@ -25,8 +27,6 @@ Auxiliaires.o : Auxiliaires.h
 Couleurs.o : Couleurs.h
 
 Fichier.o : Fichier.h 
-
-Dessin.o : Dessin.h
 	
 Selection.o : Selection.h Dessin.h 
 

@@ -19,7 +19,8 @@
 typedef struct Selection Selection;
 struct Selection {
 	SDL_Window* window;
-	SDL_Rect* rect;
+	SDL_Surface* withoutRect;
+	SDL_Rect rect;
 	int selection;
 	int copy;
 };
@@ -32,3 +33,4 @@ void deselectionner(Selection* window);
 
 
 #endif
+

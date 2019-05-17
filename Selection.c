@@ -14,13 +14,13 @@ Selection* selectMouse(SDL_Window* myWindow){
 
   SDL_Event event;
   int x = 0, y = 0, largeur = 0, hauteur = 0;
-  char myx[10], myy[10], myl[10], myh[10];
   int pushedDown = 0, quit = 0;
   while (quit == 0){
     while (SDL_PollEvent(&event)){
       switch(event.type){	
       case SDL_MOUSEBUTTONDOWN :
 	x = event.button.x;
+	printf("\nleee x :: %d;;",x);
 	y = event.button.y;
 	pushedDown = 1;
 	break;
@@ -28,8 +28,8 @@ Selection* selectMouse(SDL_Window* myWindow){
       case SDL_MOUSEBUTTONUP : 
 	if (pushedDown == 1){
 	  largeur = event.button.x - x;
+    
 	  hauteur = event.button.y - y;
-	  sprintf(myx,"%d",x); sprintf(myy,"%d",y); sprintf(myl,"%d",largeur); sprintf(myh,"%d",hauteur);
 	  return selectRect(myWindow,x,y,largeur,hauteur);
 	}
 	break;
@@ -60,7 +60,9 @@ Selection* selectWindow(SDL_Window *myWindow){
 
   SDL_Rect sel = {0,0,largeur,hauteur};
   selection->window = myWindow;
-  selection->rect = &sel;
+  selection->withoutRect = SDL_CreateRGBSurface(0,largeur,hauteur,32,0,0,0,0);
+  SDL_BlitSurface(SDL_GetWindowSurface(selection->window),NULL,selection->withoutRect,NULL);
+  selection->rect = sel;
   selection->selection = 1;
   selection->copy = 0;
 
@@ -78,11 +80,18 @@ Selection* selectRect(SDL_Window *myWindow, int x, int y, int l, int h){
   Selection* selection = malloc(sizeof(Selection));
   assert(selection != NULL);
 
+  int largeur, hauteur;
+  SDL_GetWindowSize(myWindow,&largeur,&hauteur);
+  printf("\nles coord en entree : %d %d %d %d",x,y,l,h);
   SDL_Rect sel = {x,y,l,h};
   selection->window = myWindow;
-  selection->rect = &sel;
+  selection->withoutRect = SDL_CreateRGBSurface(0,largeur,hauteur,32,0,0,0,0);
+  SDL_BlitSurface(SDL_GetWindowSurface(selection->window),NULL,selection->withoutRect,NULL);
+  selection->rect = sel;
   selection->selection = 1;
   selection->copy = 0;
+
+  printf("\nLes coordonnes avant : %d %d jj",(selection->rect).x,(selection->rect).w);
 
    /* On affiche le rectangle de selection */
   SDL_Surface* surface = SDL_GetWindowSurface(myWindow);
@@ -95,10 +104,15 @@ Selection* selectRect(SDL_Window *myWindow, int x, int y, int l, int h){
 
 void deselectionner(Selection *sel){
   if (sel == NULL){
-    printf("\nAucune region selectionnee");
     return;
   }
+  if (sel->selection == 0){
+    return;
+  }
+  SDL_BlitSurface(sel->withoutRect,NULL,SDL_GetWindowSurface(sel->window),NULL);
+  SDL_UpdateWindowSurface(sel->window);
   sel->selection = 0;
+  printf("here");
   free(sel);
   return;
 }

@@ -5,7 +5,8 @@
 
 
 ///Mise en niveaux de gris
- SDL_Surface * mise_en_niveaux_de_gris(SDL_Surface *image){
+ SDL_Surface * mise_en_niveaux_de_gris(Selection* selection){
+   SDL_Surface* image = selection->withoutRect;
    for (int y = 0; y < image->h; y++)
      {
        for (int x = 0; x < image->w; x++)
@@ -18,13 +19,16 @@
          pixels[(y * image->w) + x] = SDL_MapRGBA(image->format, v,v, v,a);
        }
      }
+   SDL_BlitSurface(image,&(selection->rect),SDL_GetWindowSurface(selection->window),&(selection->rect));
    return image;
  }
 
 
 
 //Mise en negatif
-SDL_Surface *mise_en_negatif(SDL_Surface *image){
+SDL_Surface *mise_en_negatif(Selection *selection){
+  
+  SDL_Surface* image = selection->withoutRect;
   for (int y = 0; y < image->h; y++)
     {
       for (int x = 0; x < image->w; x++)
@@ -38,12 +42,16 @@ SDL_Surface *mise_en_negatif(SDL_Surface *image){
           pixels[y * image->w + x] = SDL_MapRGBA(image->format, 255-r, 255-g, 255-b, a);;
         }
     }
+  
+   SDL_BlitSurface(image,&(selection->rect),SDL_GetWindowSurface(selection->window),&(selection->rect));
   return image;
 }
 
 
 //Mise en noir et blanc
-SDL_Surface *noir_et_blanc(SDL_Surface *image){
+SDL_Surface *noir_et_blanc(Selection *selection){
+
+  SDL_Surface *image = selection->withoutRect;
   for (int y = 0; y < image->h; y++)
     {
       for (int x = 0; x < image->w; x++)
@@ -61,13 +69,16 @@ SDL_Surface *noir_et_blanc(SDL_Surface *image){
           pixels[y * image->w + x] = SDL_MapRGBA(image->format, 255, 255, 255, a);
       }
     }
+  
+   SDL_BlitSurface(image,&(selection->rect),SDL_GetWindowSurface(selection->window),&(selection->rect));
   return image;
 }
 
 
 
 //remplacement de couleur, avec ou sans marge de tolérance
-SDL_Surface *remplacement_couleur(SDL_Surface *image, SDL_Color old_color, SDL_Color new_color, int marge){ //marge = 0 si pas de tolérance
+SDL_Surface *remplacement_couleur(Selection *selection, SDL_Color old_color, SDL_Color new_color, int marge){ //marge = 0 si pas de tolérance
+  SDL_Surface *image = selection->withoutRect;
   for (int y = 0; y < image->h; y++)
     {
       for (int x = 0; x < image->w; x++)
@@ -81,7 +92,8 @@ SDL_Surface *remplacement_couleur(SDL_Surface *image, SDL_Color old_color, SDL_C
         if(abs(r - old_color.r) < marge && abs(g - old_color.g) < marge && abs(b - old_color.b) < marge)
           pixels[y * image->w + x] = SDL_MapRGBA(image->format, new_color.r, new_color.g, new_color.b, a);
       }
-    } 
+    }  
+   SDL_BlitSurface(image,&(selection->rect),SDL_GetWindowSurface(selection->window),&(selection->rect));
   return image;
 }
 
@@ -97,10 +109,13 @@ SDL_Color  create_color(int r, int g, int b){
 
 
 //Remplissage par une couleur donnée
-SDL_Surface *remplissage_par_une_couleur(SDL_Surface *image, SDL_Color color){
-
-  SDL_FillRect(image, NULL, SDL_MapRGBA(image->format, color.r, color.g, color.b, color.a));
+SDL_Surface *remplissage_par_une_couleur(Selection *selection, SDL_Color color){
   
+  SDL_Surface* image = selection->withoutRect;
+  assert(image != NULL);
+  
+  SDL_FillRect(image, NULL, SDL_MapRGBA(image->format, color.r, color.g, color.b, color.a));
+  SDL_BlitSurface(image,&(selection->rect),SDL_GetWindowSurface(selection->window),&(selection->rect));
   return image;
 }
 
@@ -117,10 +132,11 @@ Uint8 luminosite_plus(Uint8 c, double n){
 
 
 //Gestion de la luminosité
-SDL_Surface *ajustement_luminosite(SDL_Surface *image, char *op){
+SDL_Surface *ajustement_luminosite(Selection* selection, char *op){
   //op : désigne "+" || "-" pour l'augmentation et la diminution de luminosité
   //n : le nombre de fois qu'on applique ces fonctions
 
+  SDL_Surface* image = selection->withoutRect;
   double c = 0.5;
   Uint32 * pixels = (Uint32 *)image->pixels;
 
@@ -162,7 +178,8 @@ SDL_Surface *ajustement_luminosite(SDL_Surface *image, char *op){
       }
     }
   }
-
+ 
+  SDL_BlitSurface(image,&(selection->rect),SDL_GetWindowSurface(selection->window),&(selection->rect));
   return image;
 }
 
@@ -174,8 +191,9 @@ Uint8 contraste(Uint8 c, double n){
     return 255 - contraste(255 - c, n);
 }
 
-SDL_Surface *ajustement_contraste(SDL_Surface *image){
+SDL_Surface *ajustement_contraste(Selection* selection){
 
+  SDL_Surface *image = selection->withoutRect;
   double c = 2;
   Uint32 * pixels = (Uint32 *)image->pixels;
 
@@ -190,9 +208,9 @@ SDL_Surface *ajustement_contraste(SDL_Surface *image){
       color.b = contraste(color.b, c);
               
       pixels[i * image->w + j] = SDL_MapRGB(image->format, color.r, color.g, color.b);
-    }
-      
-  } 
+    }      
+  }
+  SDL_BlitSurface(image,&(selection->rect),SDL_GetWindowSurface(selection->window),&(selection->rect));
   return image;
 }
 
@@ -230,7 +248,7 @@ SDL_Surface *symetrie(SDL_Surface *image, char *type){
 }
 
 //Rotation d'image par un multiple de 90°
-
+/*
 SDL_Window *rotation(SDL_Window *window){
   
   int largeur, hauteur;
@@ -244,5 +262,5 @@ SDL_Window *rotation(SDL_Window *window){
   //SDL_DestroyWindow(window);
 
   return afterRotate;
-}
+  }*/
 

@@ -20,7 +20,6 @@ Selection* selectMouse(SDL_Window* myWindow){
       switch(event.type){	
       case SDL_MOUSEBUTTONDOWN :
 	x = event.button.x;
-	printf("\nleee x :: %d;;",x);
 	y = event.button.y;
 	pushedDown = 1;
 	break;
@@ -46,7 +45,6 @@ Selection* selectMouse(SDL_Window* myWindow){
       }
     }
   }
-  printf("\nLa selection a echouee");
   return NULL;
 }
 
@@ -82,7 +80,6 @@ Selection* selectRect(SDL_Window *myWindow, int x, int y, int l, int h){
 
   int largeur, hauteur;
   SDL_GetWindowSize(myWindow,&largeur,&hauteur);
-  printf("\nles coord en entree : %d %d %d %d",x,y,l,h);
   SDL_Rect sel = {x,y,l,h};
   selection->window = myWindow;
   selection->withoutRect = SDL_CreateRGBSurface(0,largeur,hauteur,32,0,0,0,0);
@@ -91,14 +88,12 @@ Selection* selectRect(SDL_Window *myWindow, int x, int y, int l, int h){
   selection->selection = 1;
   selection->copy = 0;
 
-  printf("\nLes coordonnes avant : %d %d jj",(selection->rect).x,(selection->rect).w);
 
    /* On affiche le rectangle de selection */
   SDL_Surface* surface = SDL_GetWindowSurface(myWindow);
   rectangle(surface, x, y, l, h, SDL_MapRGB(surface->format, 125,50,100));
   assert(SDL_UpdateWindowSurface(myWindow) >= 0);
   
-  printf("\nRectangle normalement dessiné");
   return selection;
 }
 
@@ -112,7 +107,6 @@ void deselectionner(Selection *sel){
   SDL_BlitSurface(sel->withoutRect,NULL,SDL_GetWindowSurface(sel->window),NULL);
   SDL_UpdateWindowSurface(sel->window);
   sel->selection = 0;
-  printf("here");
   free(sel);
   return;
 }

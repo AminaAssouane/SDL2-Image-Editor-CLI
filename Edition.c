@@ -18,6 +18,27 @@ int copier(Selection* region){
   }
 }
 
+int collerSouris(SDL_Window *window, Selection* region){
+  
+  SDL_Event event;
+  int x = 0, y = 0;
+  int quit = 0;
+  char myx[10], myy[10];
+  while (quit == 0){
+    while (SDL_PollEvent(&event)){
+      switch(event.type){	
+      case SDL_MOUSEBUTTONDOWN :
+	x = event.button.x;
+	y = event.button.y;
+	sprintf(myx,"%d",x,10); sprintf(myy,"%d",y,10);
+	quit = 1;
+	return coller(window,region,myx,myy);
+	break;
+      }
+    }
+  }	
+}
+
 int coller(SDL_Window *window, Selection* region, char* x, char *y){
 
   if (region->copy == 0){

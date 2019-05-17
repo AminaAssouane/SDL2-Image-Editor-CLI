@@ -218,7 +218,7 @@ SDL_Surface *ajustement_contraste(Selection* selection){
 
 //Symétrie verticale et horizontale
 SDL_Surface *symetrie(SDL_Surface *image, char *type){
-  //type : indique le type de la symétrie (horizontale || verticale)
+  //type : indique le type de la symetrie (horizontale || verticale)
   SDL_LockSurface(image);
   Uint32 * pixels = (Uint32 *)image->pixels;
   if(strcmp(type,"h") == 0){ 
@@ -248,7 +248,7 @@ SDL_Surface *symetrie(SDL_Surface *image, char *type){
 }
 
 //Rotation d'image par un multiple de 90°
-/*
+
 SDL_Window *rotation(SDL_Window *window){
   
   int largeur, hauteur;
@@ -262,5 +262,5 @@ SDL_Window *rotation(SDL_Window *window){
   //SDL_DestroyWindow(window);
 
   return afterRotate;
-  }*/
+}
 

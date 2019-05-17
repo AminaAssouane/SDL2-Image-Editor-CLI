@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-//#include <SDL2/SDL2_rotozoom.h>
+#include <SDL2/SDL2_rotozoom.h>
 
 
 #include "Selection.h"
@@ -34,7 +34,7 @@ SDL_Surface *ajustement_contraste(Selection *image);
 
 
 SDL_Surface *symetrie(SDL_Surface *image, char *type);
-//SDL_Window *rotation(SDL_Window * window);
+SDL_Window *rotation(SDL_Window * window);
 
 
 #endif 

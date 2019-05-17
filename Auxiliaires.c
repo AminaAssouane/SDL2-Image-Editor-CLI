@@ -146,7 +146,7 @@ void help(char* comm){
     printf("\n\nNOM");
     printf("\n  copy - copie une region de l'image.");
     printf("\n\nSYNTAXE");
-    printf("\n  copy [x] [y] [largeur] [hauteur]");
+    printf("\n  copy ");
     printf("\n\nDESCRIPTION");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
@@ -157,9 +157,22 @@ void help(char* comm){
     printf("\n\nNOM");
     printf("\n  cut - coupe une region de l'image.");
     printf("\n\nSYNTAXE");
-    printf("\n  cut [x] [y] [largeur] [hauteur]");
+    printf("\n  cut ");
     printf("\n\nDESCRIPTION");
     printf("\n\nEXEMPLES\n");
+    printf("\n******************************************************************\n");
+    return;
+  }
+  if(strcasecmp(comm,"cutColor") == 0){
+    printf("\n******************* Manuel d'utilisation CIMP ********************");
+    printf("\n\nNOM");
+    printf("\n  curColor - coupe une region de l'image et la remplit avec une couleur choisie au prealable.");
+    printf("\n\nSYNTAXE");
+    printf("\n  cutColor ");
+    printf("\n\nDESCRIPTION");
+    printf("\n  Apres avoir choisit une couleur avec color, appeler cut remplit le carre coupe avec cette couleur.");
+    printf("\n\nEXEMPLES\n");
+    printf("\n  color red, puis cutColor");
     printf("\n******************************************************************\n");
     return;
   }
@@ -168,8 +181,11 @@ void help(char* comm){
     printf("\n\nNOM");
     printf("\n  paste - colle une region de l'image.");
     printf("\n\nSYNTAXE");
+    printf("\n  paste");
     printf("\n  paste [x] [y]");
     printf("\n\nDESCRIPTION");
+    printf("\n  paste : colle la selection copiee apres un CLIC SOURIS.");
+    printf("\n  paste [x] [y] : colle la selection copiee aux coordonnees (x,y)");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;

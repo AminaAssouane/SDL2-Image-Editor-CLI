@@ -9,7 +9,7 @@ int  nbWindows = 0, iWindow = 0;
 
 void init_cimp()
 {
-    printf("\n\n\n                     **********************************\n");
+    printf("\n\n\n                     **************** DERNIERE VERSION******************\n");
     printf("\n\n\n                 Bienvenue sur votre editeur d'image CIMP     \n\n\n");
     printf("\n\n                     **********************************\n\n");
     
@@ -138,7 +138,7 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"copy") == 0){
     if (args_length(cmd) > 1){
-      printf("\nSyntaxe incorrecte ! Consultez \"help copy\".");
+      printf("Syntaxe incorrecte ! Consultez \"help copy\".\n");
       return 0;
     }
     else {
@@ -155,11 +155,11 @@ int parse(char **cmd){
     }
     if (args_length(cmd) == 1){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      collerSouris(window[iWindow]);
+      collerSouris(window[iWindow],selection);
       return 1;
     }
     else {     
-      printf("\nSyntaxe incorrecte ! Consultez \"help paste\"");
+      printf("Syntaxe incorrecte ! Consultez \"help paste\"\n");
       return 0;
     }
   }
@@ -170,7 +170,7 @@ int parse(char **cmd){
       return 1;
     }
     else {     
-      printf("\nSyntaxe incorrecte ! Consultez \"help cut\"");
+      printf("Syntaxe incorrecte ! Consultez \"help cut\"\n");
       return 0;
     }
   }
@@ -181,7 +181,7 @@ int parse(char **cmd){
       return 1;
     }
     else {     
-      printf("\nSyntaxe incorrecte ! Consultez \"help cut\"");
+      printf("Syntaxe incorrecte ! Consultez \"help cutColor\"\n");
       return 0;
     }
   }
@@ -315,8 +315,6 @@ int parse(char **cmd){
 	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
 	return 0;
       }
-      // iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      printf("mes coord : %d %d ...",(selection->rect).x,(selection->rect).w);
       mise_en_niveaux_de_gris(selection);
       SDL_UpdateWindowSurface(selection->window);     
       free(selection);
@@ -467,7 +465,7 @@ int parse(char **cmd){
     }
   }
   
-  /*else if(strcasecmp(cmd[0], "rotate") == 0){
+  else if(strcasecmp(cmd[0], "rotate") == 0){
     if(args_length(cmd) != 1){
       printf("Syntaxe incorrecte ! Consultez \"help rotate\"\n");
       return 0;
@@ -479,7 +477,7 @@ int parse(char **cmd){
       
       return 0;
     }
-    }*/
+    }
     
 
   //------------------------------ * AUXILIAIRES * -------------------------------//

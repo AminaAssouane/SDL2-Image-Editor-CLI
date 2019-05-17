@@ -328,25 +328,46 @@ int parse(char **cmd){
   }
 
   else if(strcasecmp(cmd[0], "replace_color") == 0){
-    if(args_length(cmd) > 1){
+    if(args_length(cmd) != 8){
       printf("Syntaxe incorrecte ! Consultez [help replace_color]\n");
       return 0;
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      //remplacement_couleur();
+      int r_old = atoi(cmd[1]);
+      int g_old = atoi(cmd[2]);
+      int b_old = atoi(cmd[3]);
+      
+      int r_new = atoi(cmd[4]);
+      int g_new = atoi(cmd[5]);
+      int b_new = atoi(cmd[6]);
+
+      int marge = atoi(cmd[7]);
+
+      SDL_Color color_old = create_color(r_old, g_old, b_old);
+      SDL_Color color_new = create_color(r_new,g_new,b_new);
+      remplacement_couleur(SDL_GetWindowSurface(window[iWindow]), color_old, color_new, marge);
+      SDL_UpdateWindowSurface(window[iWindow]);
       return 0;
     }
   }
 
   else if(strcasecmp(cmd[0], "fill_color") == 0){
-    if(args_length(cmd) > 1){
+    if(args_length(cmd) != 4){
       printf("Syntaxe incorrecte ! Consultez [help fill_color]\n");
       return 0;
     }
     else{
-      remplissage_par_une_couleur(selection,couleur);
-      return 1;
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      int r = atoi(cmd[1]);
+      int g = atoi(cmd[2]);
+      int b = atoi(cmd[3]);
+      printf("%d\n", b);
+      SDL_Color color = create_color(r,g,b);
+
+      remplissage_par_une_couleur(SDL_GetWindowSurface(window[iWindow]), color); 
+      SDL_UpdateWindowSurface(window[iWindow]);
+      return 0;
     }
   }
 
@@ -364,7 +385,7 @@ int parse(char **cmd){
   }
 
   else if(strcasecmp(cmd[0], "contrast") == 0){
-    if(args_length(cmd) > 1){
+    if(args_length(cmd) != 1){
       printf("Syntaxe incorrecte ! Consultez [help contrast]\n");
       return 0;
     }
@@ -388,25 +409,25 @@ int parse(char **cmd){
       return 0;
     }
   }
-  /*
+  
   else if(strcasecmp(cmd[0], "rotate") == 0){
-    if(args_length(cmd) > 1){
+    if(args_length(cmd) != 1){
       printf("Syntaxe incorrecte ! Consultez \"help rotate\"\n");
       return 0;
     }
     else{
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
+
       window[iWindow] = rotation(window[iWindow]);
+      
       return 0;
     }
-    }*/
-  else{
-    printf("Commande non valide ! consultez le menu help\n");
   }
+    
 
   //------------------------------ * AUXILIAIRES * -------------------------------//
 
-  if (strcasecmp(cmd[0],"help") == 0){
+  else if (strcasecmp(cmd[0],"help") == 0){
     if (args_length(cmd) > 2)
       printf("Syntaxe incorrecte ! Consultez [help help]\n");
     else
@@ -448,8 +469,8 @@ int parse(char **cmd){
     return 1;
   }
 
-  else {
-    printf("\nCette commande n'existe pas.");
+  else{
+    printf("Commande non valide ! consultez le menu help\n");
   }
   
   return 2;

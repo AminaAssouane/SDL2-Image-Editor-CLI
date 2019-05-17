@@ -315,9 +315,10 @@ void help(char* comm){
     printf("\n******************* Manuel d'utilisation CIMP ********************");
     printf("\n\nNOM : [replace_color]");
     printf("\n\nSYNTAXE");
-    printf("\n  replace_color [old] [new] ");
+    printf("\n  replace_color [r1] [g1] [b1] [r2] [g2] [b2] [marge] ");
     printf("\n\nDESCRIPTION");
-    printf("\n  Remplacement de la couleur \"old\" par une nouvelle couleur \"new\".");
+    printf("\n  Remplacement de la couleur {r1, g1, b1} par une nouvelle couleur {r2, g2, b2} avec ou sans marge.");
+    printf("\n     0 <= r, g, b <= 255 ");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -326,9 +327,10 @@ void help(char* comm){
     printf("\n******************* Manuel d'utilisation CIMP ********************");
     printf("\n\nNOM : [FILL_COLOR]");
     printf("\n\nSYNTAXE");
-    printf("\n  fill_color [color] ");
+    printf("\n  fill_color [r] [g] [b] ");
     printf("\n\nDESCRIPTION");
-    printf("\n  Remplissage de la surface par la couleur \"color\".");
+    printf("\n  Remplissage de la surface par une couleur représentée en RGB .");
+    printf("\n     0 <= r, g, b <= 255 ");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;

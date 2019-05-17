@@ -30,13 +30,15 @@ int collerSouris(SDL_Window *window, Selection* region){
       case SDL_MOUSEBUTTONDOWN :
 	x = event.button.x;
 	y = event.button.y;
-	sprintf(myx,"%d",x,10); sprintf(myy,"%d",y,10);
+	sprintf(myx,"%d",x); 
+  sprintf(myy,"%d",y);
 	quit = 1;
 	return coller(window,region,myx,myy);
 	break;
       }
     }
-  }	
+  }
+  return 0;	
 }
 
 int coller(SDL_Window *window, Selection* region, char* x, char *y){

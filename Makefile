@@ -22,13 +22,13 @@ Auxiliaires.o : Auxiliaires.h
 
 Fichier.o : Fichier.h
 
+Edition.o : Edition.h Selection.h
+
+Selection.o : Selection.h Dessin.h 
+
 Couleurs.o : Couleurs.h
 
 Dessin.o : Dessin.h
-	
-Selection.o : Selection.h Dessin.h 
-
-Edition.o : Edition.h Selection.h
 
 Transformations.o : Transformations.h 
 

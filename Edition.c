@@ -18,7 +18,7 @@ int copier(SDL_Window* window, Selection* region){
   }
 }
 
-int coller(SDL_Window *window, Selection* region, char* x, char *y, char *myl, char* myh){
+int coller(SDL_Window *window, Selection* region, char* x, char *y){
 
   if (region->copy == 0){
     printf("\nAucune region copiee.");
@@ -28,11 +28,12 @@ int coller(SDL_Window *window, Selection* region, char* x, char *y, char *myl, c
     SDL_Rect dst;
     dst.x = atoi(x);
     dst.y = atoi(y);
-    dst.w = atoi(myl);
-    dst.h = atoi(myh);
+    dst.w = (region->rect)->w;
+    dst.h = (region->rect)->h;
     SDL_BlitSurface(SDL_GetWindowSurface(region->window),region->rect,SDL_GetWindowSurface(window),&dst);
     SDL_UpdateWindowSurface(window);
     region->copy = 0;
+    printf("\ncopie effectuee");
     return 1;
   }
 }
@@ -49,8 +50,8 @@ int couper(SDL_Window* window, Selection* region){
   else {
     region->selection = 0;
     region->copy = 1;
-    SDL_Surface *surface = SDL_GetWindowSurface(
-    SDL_FillSurface(SDL_GetWindowSurface(region->window),region->rect, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
+    SDL_Surface *surface = SDL_GetWindowSurface(region->window);
+    SDL_FillRect(surface, region->rect, SDL_MapRGB(surface->format, 0x00, 0x00, 0x00));
     SDL_UpdateWindowSurface(region->window);
     return 1;
   }

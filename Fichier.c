@@ -62,7 +62,7 @@ void sauvegarde(SDL_Window* myWindow, char* opt, char* name){
     }
     if (strcasecmp(opt,"-jpg") == 0){
       strcat(name,".jpg");
-      IMG_SaveJPG(image,name,1);
+      IMG_SaveJPG(image,name,100);
       return;
     }
     if (strcasecmp(opt,"-bmp") == 0){

@@ -11,8 +11,8 @@ int findWindowID(SDL_Window* tabW[], Uint32 wID, int nbWindows){
       return i;
     }
   }
-  fprintf(stdout,"Echec de la recherche de la fenêtre\n");
-  exit(EXIT_FAILURE);
+  printf("Echec de la recherche de la fenêtre\n");
+  return 0;
 }
 
 /* Fonction qui réarrange les fenêtre dans la liste "window[]" après la suppression d'une fenêtre */
@@ -161,7 +161,7 @@ void help(char* comm){
     printf("\n\nNOM");
     printf("\n  paste - colle une region de l'image.");
     printf("\n\nSYNTAXE");
-    printf("\n  paste [x] [y] [largeur] [hauteur]");
+    printf("\n  paste [x] [y]");
     printf("\n\nDESCRIPTION");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");

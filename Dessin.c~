@@ -1,7 +1,0 @@
-
-
-void drawPoint(int x, int y, Uint32 coul)
-{
-  *((Uint32*)(affichage->pixels) + x + y * affichage->w) = coul;
-}
-

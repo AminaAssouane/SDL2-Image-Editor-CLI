@@ -12,8 +12,9 @@
 
 #include "Selection.h"
 
-
+int couper(SDL_Window* window, Selection* region);
 int copier(SDL_Window* window, Selection* region);
-int coller(SDL_Window *window, Selection* region, char* x, char *y, char *myl, char* myh);
+int coller(SDL_Window *window, Selection* region, char* x, char *y);
+
 
 #endif

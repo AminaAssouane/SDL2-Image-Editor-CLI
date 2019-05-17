@@ -20,6 +20,7 @@
 #include "Selection.h"
 #include "Transformations.h"
 #include "Types.h"
+#include "Couleurs.h"
 
 #define SEPARATEUR " \n\r\a\t"
 #define SIZE_CMD 200

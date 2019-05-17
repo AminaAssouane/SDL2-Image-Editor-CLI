@@ -43,6 +43,20 @@ SDL_Window* ouvrir(char *adresse){
   return myWindow;
 }
 
+SDL_Window* reload(SDL_Window *window){
+
+  const char * name = SDL_GetWindowTitle(window);
+  SDL_Surface *tmp = IMG_Load(name);
+  SDL_Window* new = SDL_CreateWindow(name, SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,tmp->w,tmp->h,SDL_WINDOW_SHOWN);
+  SDL_BlitSurface(tmp,NULL,SDL_GetWindowSurface(new),NULL);
+  SDL_UpdateWindowSurface(new);
+
+  SDL_Window *w2 = window;
+  SDL_DestroyWindow(w2);
+
+  return new;
+}
+
 
 void sauvegarde(SDL_Window* myWindow, char* opt, char* name){
   SDL_Surface* image = SDL_GetWindowSurface(myWindow);

@@ -216,12 +216,17 @@ SDL_Surface *ajustement_contraste(Selection* selection){
 
 
 
-//Symétrie verticale et horizontale
-SDL_Surface *symetrie(SDL_Surface *image, char *type){
-  //type : indique le type de la symetrie (horizontale || verticale)
+SDL_Window * symetrie(SDL_Window * window, char *type){
+  int m,n;
+  SDL_GetWindowSize(window, &m, &n);
+
+  const char* name = SDL_GetWindowTitle(window);
+  SDL_Window* new = SDL_CreateWindow(name,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,m,n,SDL_WINDOW_SHOWN);
+  SDL_Surface *image = SDL_GetWindowSurface(window);
+///////////////////////////////////////////////////////////////////////////
   SDL_LockSurface(image);
   Uint32 * pixels = (Uint32 *)image->pixels;
-  if(strcmp(type,"h") == 0){ 
+  if(strcasecmp(type,"h") == 0){ 
     Uint32 *new_pixels = malloc(image->pitch * image->h);
     for(int j=0; j<(image->h); j++){
       for(int i=0; i<image->w; i++){
@@ -233,19 +238,31 @@ SDL_Surface *symetrie(SDL_Surface *image, char *type){
 
   }
 
-  if(strcmp(type,"v") == 0){
+  if(strcasecmp(type,"v") == 0){
     Uint32 *new_pixels = malloc(image->pitch * image->h);
-    for(int j=0; j<(image->h); j++)
-      for(int i=0; i<image->w; i++)
-  new_pixels[j*(image->w)+i] = pixels[j*(image->w)-1-i];
+    for(int j=0; j<(image->h); j++){
+      for(int i=0; i<image->w; i++){
+        new_pixels[j*(image->w)+i] = pixels[j*(image->w)+((image->w)-1-i)];
+      }
+    }
     
     image = SDL_CreateRGBSurfaceWithFormatFrom((void*)new_pixels, image->w, image->h, 32, image->pitch, image->format->format);
     
   }
+  //////////////////////////////////////////////////////////////////////
   SDL_UnlockSurface(image);
 
-  return image;
+  SDL_BlitSurface(image,NULL,SDL_GetWindowSurface(new),NULL);
+  SDL_UpdateWindowSurface(new);
+  SDL_Window *w2 = window;
+  SDL_DestroyWindow(w2);
+
+  return new;
+
 }
+
+
+
 
 //Rotation d'image par un multiple de 90°
 
@@ -254,13 +271,32 @@ SDL_Window *rotation(SDL_Window *window){
   int largeur, hauteur;
   SDL_GetWindowSize(window,&largeur,&hauteur);
   
-  SDL_Window* afterRotate = SDL_CreateWindow("Nouvelle Fenetre",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,hauteur,largeur,SDL_WINDOW_SHOWN);
+  const char * name = SDL_GetWindowTitle(window);
+  SDL_Window* afterRotate = SDL_CreateWindow(name,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,hauteur,largeur,SDL_WINDOW_SHOWN);
   
   SDL_Surface *tmp = rotateSurface90Degrees(SDL_GetWindowSurface(window), 1);
   SDL_BlitSurface(tmp,NULL,SDL_GetWindowSurface(afterRotate),NULL);
   SDL_UpdateWindowSurface(afterRotate);
-  //SDL_DestroyWindow(window);
+  SDL_Window *w2 = window;
+  SDL_DestroyWindow(w2);
 
   return afterRotate;
 }
 
+SDL_Window *resize(SDL_Window *window, int m, int n){
+  
+  //int largeur, hauteur;
+  //SDL_GetWindowSize(window,&largeur,&hauteur);
+  
+  const char * name = SDL_GetWindowTitle(window);
+  SDL_Window* new = SDL_CreateWindow(name,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,m,n,SDL_WINDOW_SHOWN);
+  
+  SDL_Surface *tmp = SDL_GetWindowSurface(window);
+  rotozoomSurfaceSize(m,n ,0, 1, &tmp->w, &tmp->h);
+  SDL_BlitSurface(tmp,NULL,SDL_GetWindowSurface(new),NULL);
+  SDL_UpdateWindowSurface(new);
+  SDL_Window *w2 = window;
+  SDL_DestroyWindow(w2);
+
+  return new;
+}

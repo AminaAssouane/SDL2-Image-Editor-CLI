@@ -32,6 +32,7 @@ void help(char* comm){
     printf("\nListe des commandes possibles :\n");
     
     printf("\n    BLACKNWHITE       Mise en noir et blanc.");
+    printf("\n    CLOSE             Ferme la fenetre.");
     printf("\n    CIRCLE            Dessine un cercle sur la fenetre. ");
     printf("\n    COLOR             Choisir une couleur.");  
     printf("\n    CONTRAST          Ajustement du contraste.");
@@ -49,6 +50,7 @@ void help(char* comm){
     printf("\n    NEW               Ouvre une nouvelle fenetre.");
     printf("\n    OPEN              Charge une image en memoire.");
     printf("\n    PASTE             Colle dans une region de l'image.");
+    printf("\n    RELOAD            Réinitialise l'image.");
     printf("\n    REPLACE_COLOR     Remplacement d'une couleur donnee.");
     printf("\n    ROTATE            Rotation de l'image.");
     printf("\n    SAVE              Sauvegarde l'image.");
@@ -59,15 +61,18 @@ void help(char* comm){
     printf("\n\nPour plus d'informations sur une commande specifique, entrez help suivie de la commande.\n");
     return;
   }
-  if (strcasecmp(comm,"new") == 0){
+
+   if (strcasecmp(comm,"new") == 0){
     printf("\n******************* Manuel d'utilisation CIMP ********************");
     printf("\n\nNOM");
     printf("\n  new - Ouvre une nouvelle fenetre vide");
     printf("\n\nSYNTAXE");
-    printf("\n  new [nom] largeur hauteur");
+    printf("\n  new largeur hauteur");
     printf("\n\nDESCRIPTION");
-    printf("\n\nEXEMPLES\n");
-    printf("\n******************************************************************\n");
+    printf("\n  Ouvre une nouvelle fenetre avec la largeur et la hauteur");
+    printf("\n\nEXEMPLES");
+    printf("\n  new 500 600");
+    printf("\n\n******************************************************************\n");
     return;
   }
   if(strcasecmp(comm,"help") == 0){
@@ -77,8 +82,11 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  help [commande]");
     printf("\n\nDESCRIPTION");
-    printf("\n\nEXEMPLES\n");
-    printf("\n******************************************************************\n");
+    printf("\n  help : affiche toute les commandes possibles.");
+    printf("\n  help commande : affiche les informations sur la commande en question.");
+    printf("\n\nEXEMPLES");
+    printf("\n  help select");
+    printf("\n\n******************************************************************\n");
     return;
   }
   if(strcasecmp(comm,"open") == 0){
@@ -88,10 +96,25 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  open cheminimage");
     printf("\n\nDESCRIPTION");
+    printf("\n  open cheminimage ");
+    printf("\n\nEXEMPLES");
+    printf("\n  open terre.bmp");
+    printf("\n  open ../apple.png");
+    printf("\n\n******************************************************************\n");
+    return;
+  }
+  if(strcasecmp(comm,"RELOAD") == 0){
+    printf("\n******************* Manuel d'utilisation CIMP ********************");
+    printf("\n\nNOM : [reload]");
+    printf("\n\nSYNTAXE");
+    printf("\n  reload ");
+    printf("\n\nDESCRIPTION");
+    printf("\n  Réinitialise l'image.");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
   }
+  
   if(strcasecmp(comm,"select") == 0){
     printf("\n******************* Manuel d'utilisation CIMP ********************");
     printf("\n\nNOM");
@@ -117,8 +140,9 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  unselect");
     printf("\n\nDESCRIPTION");
-    printf("\n\nEXEMPLES\n");
-    printf("\n******************************************************************\n");
+    printf("\n  unselect : deselectionne la region selectionnee (et supprime ainsi le rectangle de selection)");
+    printf("\n\nEXEMPLES");
+    printf("\n\n******************************************************************\n");
     return;
   }
   
@@ -152,13 +176,27 @@ void help(char* comm){
     printf("\n******************************************************************\n");
     return;
   }
+  if(strcasecmp(comm,"copy") == 0){
+    printf("\n******************* Manuel d'utilisation CIMP ********************");
+    printf("\n\nNOM");
+    printf("\n  copy - copie une region de l'image.");
+    printf("\n\nSYNTAXE");
+    printf("\n  copy ");
+    printf("\n\nDESCRIPTION");
+    printf("\n  Copie la region de l'image qui est couramment selectionnee.");
+    printf("\n  Si aucune region n'est selectionnee, copy retourne une erreure.");
+    printf("\n\nEXEMPLES");
+    printf("\n\n******************************************************************\n");
+    return;
+  }
   if(strcasecmp(comm,"cut") == 0){
     printf("\n******************* Manuel d'utilisation CIMP ********************");
     printf("\n\nNOM");
     printf("\n  cut - coupe une region de l'image.");
     printf("\n\nSYNTAXE");
-    printf("\n  cut ");
+    printf("\n  cut");
     printf("\n\nDESCRIPTION");
+    printf("\n  Coupe la region de l'image selectionnee, et la rempli avec la couleur par default, qui est le GRIS.\n  Si aucune region n'est selectionnee, cut renvoie une erreure.");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -170,7 +208,7 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  cutColor ");
     printf("\n\nDESCRIPTION");
-    printf("\n  Apres avoir choisit une couleur avec color, appeler cut remplit le carre coupe avec cette couleur.");
+    printf("\n  Apres avoir choisit une couleur avec la commande COLOR, appeler cutColor remplit le rectangle selectionne avec cette couleur et le copie.");
     printf("\n\nEXEMPLES\n");
     printf("\n  color red, puis cutColor");
     printf("\n******************************************************************\n");
@@ -187,7 +225,8 @@ void help(char* comm){
     printf("\n  paste : colle la selection copiee apres un CLIC SOURIS.");
     printf("\n  paste [x] [y] : colle la selection copiee aux coordonnees (x,y)");
     printf("\n\nEXEMPLES\n");
-    printf("\n******************************************************************\n");
+    printf("\n  paste\n  paste 50 50");
+    printf("\n\n******************************************************************\n");
     return;
   }
 
@@ -204,8 +243,11 @@ void help(char* comm){
     printf("\n  color nomcouleur ");
     printf("\n  color R G B");
     printf("\n\nDESCRIPTION");
-    printf("\n  Permet de choisir une couleur pour dessinger sur l'image en specifiant soit : \n1. Son nom. \n2. Ses valeurs RGB.");
+    printf("\n  Permet de choisir une couleur pour dessinger sur l'image en specifiant soit : \n1. Son nom. \n2. Ses valeurs R, G & B.");
     printf("\n  Les couleurs disponibles sont : ");
+    printf("\n    BLACK, DARK_BLUE, DARK_GREEN, DARK_CYAN, DARK_RED, ");
+    printf("\n    DARK_MAGENTA, DARK_YELLOW, LIGHT_GREY, GREY, BLUE, ");
+    printf("\n    GREEN, CYAN, RED, MAGENTA, YELLOW, WHITE");
     printf("\n\nEXEMPLES\n");
     printf("\n  color dark_green");
     printf("\n******************************************************************\n");
@@ -219,6 +261,7 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  point [x] [y] ");
     printf("\n\nDESCRIPTION");
+    printf("\n  Dessine un point de coordonnees [x,y].");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -267,8 +310,10 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  rectangle [x] [y] [largeur] [hauteur]");
     printf("\n\nDESCRIPTION");
-    printf("\n\nEXEMPLES\n");
-    printf("\n******************************************************************\n");
+    printf("\n  Dessine un rectangle de commencant par les coordonnees [x,y], de largeur [largeur] et de hauteur [hauteur].");
+    printf("\n\nEXEMPLES");
+    printf("\n  rectangle 50 50 200 350");
+    printf("\n\n******************************************************************\n");
     return;
   }
 
@@ -279,6 +324,7 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  circle [cx] [cy] [rayon]");
     printf("\n\nDESCRIPTION");
+    printf("\n  Dessine un cercle de centre de coordonnees [cx,cy] et de rayon [rayon].");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -291,6 +337,7 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  disk [cx] [cy] [rayon]");
     printf("\n\nDESCRIPTION");
+    printf("\n  Dessine un disque de centre de coordonnees [cx,cy] et de rayon [rayon].");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -307,7 +354,7 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  grey ");
     printf("\n\nDESCRIPTION");
-    printf("\n  Mise en niveaux de gris.");
+    printf("\n  Mise en niveaux de gris de la region de l'image selectionnee.");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -318,7 +365,7 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  negative ");
     printf("\n\nDESCRIPTION");
-    printf("\n  Mise en nÃ©gatif.");
+    printf("\n  Mise en negatif de la region de l'image selectionnee.");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -329,7 +376,7 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  blacknwhite ");
     printf("\n\nDESCRIPTION");
-    printf("\n  Mise en noir et blanc.");
+    printf("\n  Mise en noir et blanc de la region de l'image selectionnee.");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -352,7 +399,7 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  fill_color [r] [g] [b] ");
     printf("\n\nDESCRIPTION");
-    printf("\n  Remplissage de la surface par une couleur représentée en RGB .");
+    printf("\n  Remplissage de la surface selectionnee par une couleur représentée en RGB .");
     printf("\n     0 <= r, g, b <= 255 ");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
@@ -363,9 +410,9 @@ void help(char* comm){
     printf("\n\nSYNTAXE");
     printf("\n  light [op] [n]");
     printf("\n\nDESCRIPTION");
-    printf("\n  Ajustement de la luminositÃ© de l'image:");
-    printf("\n     [op] = '+' pour augmenter la luminositÃ©");
-    printf("\n     [op] = '-' pour augmenter la luminositÃ©");
+    printf("\n  Ajustement de la luminosite de l'image:");
+    printf("\n     [op] = '+' pour augmenter la luminosite");
+    printf("\n     [op] = '-' pour augmenter la luminosite");
     printf("\n     [n] : le nombre de fois qu'on applique light");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
@@ -402,7 +449,7 @@ void help(char* comm){
     printf("\n  rotate [n] ");
     printf("\n\nDESCRIPTION");
     printf("\n  Rotation de l'image par un multiple de 90Â°.");
-    printf("\n     [n] : le nombre de rotation souhaitÃ©");
+    printf("\n     [n] : le nombre de rotation souhaites");
     printf("\n\nEXEMPLES\n");
     printf("\n******************************************************************\n");
     return;
@@ -418,6 +465,30 @@ void help(char* comm){
     printf("\n\nEXEMPLES");
     printf("\n  icon apple.png\n");  
     printf("\n******************************************************************\n");
+    return;
+  }
+  if(strcasecmp(comm,"CLOSE") == 0){
+    printf("\n******************* Manuel d'utilisation CIMP ********************");
+    printf("\n\nNOM");
+    printf("\n  close - ferme la fenetre.");
+    printf("\n\nSYNTAXE");
+    printf("\n  close");
+    printf("\n\nDESCRIPTION");
+    printf("\n  Ferme la fenetre sur laquelle nous avons le focus.");
+    printf("\n\nEXEMPLES");  
+    printf("\n\n******************************************************************\n");
+    return;
+  }
+  if (strcasecmp(comm,"quit") == 0){
+    printf("\n******************* Manuel d'utilisation CIMP ********************");
+    printf("\n\nNOM");
+    printf("\n  quit - quitte le programme");
+    printf("\n\nSYNTAXE");
+    printf("\n  quit");
+    printf("\n\nDESCRIPTION");
+    printf("\n  Permet a tout moment de quitter CIMP.");
+    printf("\n\nEXEMPLES");
+    printf("\n\n******************************************************************\n");
     return;
   }
   printf("\nCette commande n'est pas prise en charge par l'utilitaire d'aide.");

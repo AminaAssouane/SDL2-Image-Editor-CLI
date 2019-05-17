@@ -1,9 +1,4 @@
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "cimp.h"
+#include "main.h"
 
 int main(int argc, char *argv[])
 {

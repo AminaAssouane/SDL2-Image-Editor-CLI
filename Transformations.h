@@ -33,8 +33,8 @@ Uint8 contraste(Uint8 c, double n);
 SDL_Surface *ajustement_contraste(Selection *image);
 
 
-SDL_Surface *symetrie(SDL_Surface *image, char *type);
-SDL_Window *rotation(SDL_Window * window);
-
+SDL_Window * symetrie(SDL_Window * window, char *type);
+SDL_Window *rotation(SDL_Window *window);
+SDL_Window *resize(SDL_Window *window, int m, int n);
 
 #endif 

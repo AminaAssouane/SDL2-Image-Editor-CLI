@@ -9,7 +9,7 @@ int  nbWindows = 0, iWindow = 0;
 
 void init_cimp()
 {
-    printf("\n\n\n                     **************** DERNIERE VERSION******************\n");
+    printf("\n\n\n                     **********************************\n");
     printf("\n\n\n                 Bienvenue sur votre editeur d'image CIMP     \n\n\n");
     printf("\n\n                     **********************************\n\n");
     
@@ -75,6 +75,21 @@ int parse(char **cmd){
       return 1;
     }
   }
+  else if (strcasecmp(cmd[0],"reload") == 0){
+    if (args_length(cmd) != 1){
+      printf("Syntaxe incorrecte ! Consultez [help reload]\n");
+      return 0;
+    }
+    else {
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+    }
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      window[iWindow] = reload(window[iWindow]);
+      return 1;
+    }
+  }
   
   else if (strcasecmp(cmd[0],"save") == 0){
     if ((args_length(cmd) < 2) || (args_length(cmd) > 3)){
@@ -82,14 +97,18 @@ int parse(char **cmd){
       return 0;
     }
     else {
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+    }
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       if (args_length(cmd) == 2){
-	sauvegarde(window[iWindow], NULL, cmd[1]);
-	return 1;
+      	sauvegarde(window[iWindow], NULL, cmd[1]);
+      	return 1;
       }
       else {
-	sauvegarde(window[iWindow], cmd[1], cmd[2]);
-	return 1;
+      	sauvegarde(window[iWindow], cmd[1], cmd[2]);
+      	return 1;
       }	
     }
   }
@@ -97,6 +116,10 @@ int parse(char **cmd){
   //------------------------------ * SELECTION * -------------------------------//
 
   else if (strcasecmp(cmd[0],"select") == 0){
+    if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+    }
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       deselectionner(selection);
@@ -128,6 +151,10 @@ int parse(char **cmd){
       return 0;
     }
     else {
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+    }
       deselectionner(selection);
       selection = NULL;
       return 1;
@@ -142,12 +169,20 @@ int parse(char **cmd){
       return 0;
     }
     else {
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       copier(selection);
       return 1;
     }
   }
 
   else if (strcasecmp(cmd[0],"paste") == 0){
+    if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+    }
     if (args_length(cmd) == 3){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       coller(window[iWindow],selection,cmd[1],cmd[2]);
@@ -166,6 +201,10 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"cut") == 0){
     if (args_length(cmd) == 1){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       couper(selection);
       return 1;
     }
@@ -177,6 +216,10 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"cutColor") == 0){
     if (args_length(cmd) == 1){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       couperColor(selection,couleur);
       return 1;
     }
@@ -207,6 +250,10 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"clear") == 0){
     if (args_length(cmd) == 1){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       clear(SDL_GetWindowSurface(window[iWindow]), color(SDL_GetWindowSurface(window[iWindow]),"red"));
       SDL_UpdateWindowSurface(window[iWindow]);
@@ -220,6 +267,10 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"point") == 0){
     if (args_length(cmd) == 3){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       int x = atoi(cmd[1]), y = atoi(cmd[2]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       drawPointSafe(SDL_GetWindowSurface(window[iWindow]),x,y,couleur);
@@ -233,7 +284,11 @@ int parse(char **cmd){
   }
 
   else if (strcasecmp(cmd[0],"horizontal") == 0){
-    if (args_length(cmd) == 4){      
+    if (args_length(cmd) == 4){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }      
       int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       ligneHorizontale(SDL_GetWindowSurface(window[iWindow]),x,y,l,couleur);
@@ -248,6 +303,10 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"vertical") == 0){
     if (args_length(cmd) == 4){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       ligneVerticale(SDL_GetWindowSurface(window[iWindow]),x,y,l,couleur);
@@ -261,7 +320,11 @@ int parse(char **cmd){
   }
   
   else if (strcasecmp(cmd[0],"rectangle") == 0){
-    if (args_length(cmd) == 5){     
+    if (args_length(cmd) == 5){  
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }   
       int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]), h = atoi(cmd[4]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       rectangle(SDL_GetWindowSurface(window[iWindow]),x,y,l,h,couleur);
@@ -276,6 +339,10 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"circle") == 0){
     if (args_length(cmd) == 4){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       cercle(SDL_GetWindowSurface(window[iWindow]),x,y,l,couleur);
@@ -291,6 +358,10 @@ int parse(char **cmd){
 
   else if (strcasecmp(cmd[0],"disk") == 0){
     if (args_length(cmd) == 4){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       disque(window[iWindow],x,y,l,couleur);
@@ -311,9 +382,13 @@ int parse(char **cmd){
       return 0;
     }
     else{
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       if ((selection == NULL) || (selection->selection == 0)){
-	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
-	return 0;
+      	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+      	return 0;
       }
       mise_en_niveaux_de_gris(selection);
       SDL_UpdateWindowSurface(selection->window);     
@@ -329,9 +404,13 @@ int parse(char **cmd){
       return 0;
     }
     else{
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       if ((selection == NULL) || (selection->selection == 0)){
-	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
-	return 0;
+      	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+      	return 0;
       }
       mise_en_negatif(selection); 
       SDL_UpdateWindowSurface(selection->window);
@@ -347,9 +426,13 @@ int parse(char **cmd){
       return 0;
     }
     else{
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       if ((selection == NULL) || (selection->selection == 0)){
-	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
-	return 0;
+        	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+        	return 0;
       }
       noir_et_blanc(selection); 
       SDL_UpdateWindowSurface(selection->window);
@@ -365,9 +448,13 @@ int parse(char **cmd){
       return 0;
     }
     else{
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       if ((selection == NULL) || (selection->selection == 0)){
-	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
-	return 0;
+      	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+      	return 0;
       }
       int r_old = atoi(cmd[1]);
       int g_old = atoi(cmd[2]);
@@ -395,9 +482,13 @@ int parse(char **cmd){
       return 0;
     }
     else{
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       if ((selection == NULL) || (selection->selection == 0)){
-	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
-	return 0;
+      	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+      	return 0;
       }
       
       int r = atoi(cmd[1]);
@@ -416,9 +507,13 @@ int parse(char **cmd){
 
   else if(strcasecmp(cmd[0], "light") == 0){
     if(args_length(cmd) == 2){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
        if ((selection == NULL) || (selection->selection == 0)){
-	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
-	return 0;
+      	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+      	return 0;
       }
       
       ajustement_luminosite(selection, cmd[1]); 
@@ -439,9 +534,13 @@ int parse(char **cmd){
       return 0;
     }
     else{
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
        if ((selection == NULL) || (selection->selection == 0)){
-	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
-	return 0;
+      	printf("Aucune region selectionnee. Veuillez d'abord selectionner une region.\n");
+      	return 0;
       }
        
       ajustement_contraste(selection); 
@@ -454,9 +553,16 @@ int parse(char **cmd){
 
   else if(strcasecmp(cmd[0], "symmetry") == 0){
     if(args_length(cmd) == 2){
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
+      if(strcasecmp("h", cmd[1]) != 0 && strcasecmp("v", cmd[1])){
+           printf("Syntaxe incorrecte ! Consultez [help symmetry]\n");
+            return 0;
+      }
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      symetrie(SDL_GetWindowSurface(window[iWindow]),cmd[1]);
-      SDL_UpdateWindowSurface(window[iWindow]);
+      window[iWindow] = symetrie(window[iWindow], cmd[1]);
       return 0;
     }
     else{
@@ -471,6 +577,10 @@ int parse(char **cmd){
       return 0;
     }
     else{
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
 
       window[iWindow] = rotation(window[iWindow]);
@@ -507,6 +617,10 @@ int parse(char **cmd){
       return 0;
     }
     else {
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       SDL_DestroyWindow(window[iWindow]);
       nbWindows--;
@@ -517,7 +631,11 @@ int parse(char **cmd){
   else if (strcasecmp(cmd[0],"icon") == 0){
     if (args_length(cmd) != 2)
       printf("Syntaxe incorrecte ! Consultez [help icon]\n");
-    else {      
+    else {   
+      if(nbWindows <= 0){
+        printf("Aucune fenetre pour executer la commande\n");
+        return 0;
+      }   
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
       icon(window[iWindow],cmd[1]);
     }

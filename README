@@ -1,2 +1,34 @@
 Pour compiler le programme : make ou mingw32-make
-Pour executer le programme : main
+Pour executer le programme : ./main
+
+
+Liste des commandes possibles :
+
+    BLACKNWHITE       Mise en noir et blanc.
+    CIRCLE            Dessine un cercle sur la fenetre. 
+    COLOR             Choisir une couleur.
+    CLOSE             Fermer une fenetre..
+    CONTRAST          Ajustement du contraste.
+    COPY              Copie une region de l'image.
+    CUT               Coupe une region de l'image.
+    CUTCOLOR          Coupe une region de l'image avec une couleur determinee.
+    DISK              Dessine un disque sur l'image.
+    FILL_COLOR        Remplissage par une couleur donnee.
+    GREY              Mise en niveaux de gris.
+    HELP              Affiche des informations sur les commandes de CIMP.
+    HORIZONTAL        Dessine une ligne horizontale sur l'image.
+    ICON              Ajoute une icone a la fenetre.
+    LIGHT             Ajustement de la luminosite.
+    NEGATIVE          Mise en negatif.
+    NEW               Ouvre une nouvelle fenetre.
+    OPEN              Charge une image en memoire.
+    PASTE             Colle dans une region de l'image.
+    REPLACE_COLOR     Remplacement d'une couleur donnee.
+    ROTATE            Rotation de l'image.
+    SAVE              Sauvegarde l'image.
+    SELECT            Selectionne une region de l'image.
+    SYMMETRY          Symétrie verticale et horizontale
+    UNSELECT          Deselectionne la selection actuelle.
+    QUIT              Quitte le programme CIMP.
+
+Pour plus de précisions sur les commandes, exécuter le code et taper 'help commande'

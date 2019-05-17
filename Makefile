@@ -1,8 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -g -std=c11 -I./include
-LDFLAGS = -L./lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lm -lreadline
-SDL_LIB = -L./lib -lSDL2main -lSDL2 -lSDL2_image -lm -lreadline
-SDL_INCLUDE = -I./include
+CFLAGS = -Wall -g $(shell sdl2-config --cflags)
+LDFLAGS = -lSDL2main -lSDL2 -lSDL2_image -lSDL2_gfx -lm -lreadline -export-dynamic $(shell sdl2-config --libs)
 OBJS = main.o cimp.o Auxiliaires.o Fichier.o Edition.o Selection.o Couleurs.o Dessin.o Transformations.o
 
 ALL = main
@@ -16,17 +14,17 @@ main : 	$(OBJS)
 
 
 
-Dessin.o : Dessin.h
-
 main.o : main.h cimp.h
 
 cimp.o : cimp.h Auxiliaires.h Fichier.h Edition.h Selection.h  Transformations.h Couleurs.h Dessin.h Transformations.h
 
 Auxiliaires.o : Auxiliaires.h 
 
+Fichier.o : Fichier.h
+
 Couleurs.o : Couleurs.h
 
-Fichier.o : Fichier.h 
+Dessin.o : Dessin.h
 	
 Selection.o : Selection.h Dessin.h 
 

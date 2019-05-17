@@ -10,6 +10,10 @@
 #include <strings.h>
 #include <assert.h>
 
+#include "Selection.h"
 
+
+int copier(SDL_Window* window, Selection* region);
+int coller(SDL_Window *window, Selection* region, char* x, char *y, char *myl, char* myh);
 
 #endif

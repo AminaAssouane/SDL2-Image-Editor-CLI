@@ -13,12 +13,22 @@
 #include <unistd.h>
 #include <assert.h>
 
+#include "Dessin.h"
+
+
+typedef struct Selection Selection;
+struct Selection {
+	SDL_Window* window;
+	SDL_Rect* rect;
+	int selection;
+	int copy;
+};
 
 void colorSelect();
-void selectWindow(SDL_Window* window);
-void selectMouse(SDL_Window* myWindow);
-void selectRect(SDL_Window* window);
-void deselectionner(SDL_Window* window);
+Selection* selectWindow(SDL_Window* window);
+Selection* selectMouse(SDL_Window* myWindow);
+Selection* selectRect(SDL_Window* window, int x, int y, int largeur, int hauteur);
+void deselectionner(Selection* window);
 
 
 #endif

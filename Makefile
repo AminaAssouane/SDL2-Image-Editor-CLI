@@ -18,13 +18,13 @@ main.o : main.h cimp.h
 
 cimp.o : cimp.h Auxiliaires.h Fichier.h Edition.h Selection.h  Transformations.h Couleurs.h Dessin.h
 
-Auxiliaires.o : Auxiliaires.h Fichier.h 
+Auxiliaires.o : Auxiliaires.h 
 
 Couleurs.o : Couleurs.h
 
 Fichier.o : Fichier.h 
 
-Selection.o : Selection.h  
+Selection.o : Selection.h Dessin.h 
 
 Edition.o : Edition.h 
 	

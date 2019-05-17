@@ -3,13 +3,14 @@
 #include "Selection.h"
 
 
+
 void colorSelect(SDL_Renderer *renderer, SDL_Rect *rect){
   assert(SDL_SetRenderDrawColor(renderer,150,0,150,255) >= 0);
   assert(SDL_RenderDrawRect(renderer, rect) >= 0);
 }
 
 
-void selectMouse(SDL_Window* myWindow){
+Selection* selectMouse(SDL_Window* myWindow){
 
   SDL_Event event;
   int x = 0, y = 0, largeur = 0, hauteur = 0;
@@ -22,7 +23,6 @@ void selectMouse(SDL_Window* myWindow){
 	x = event.button.x;
 	y = event.button.y;
 	pushedDown = 1;
-	printf("\nbutton pressed");
 	break;
 	
       case SDL_MOUSEBUTTONUP : 
@@ -30,8 +30,7 @@ void selectMouse(SDL_Window* myWindow){
 	  largeur = event.button.x - x;
 	  hauteur = event.button.y - y;
 	  sprintf(myx,"%d",x); sprintf(myy,"%d",y); sprintf(myl,"%d",largeur); sprintf(myh,"%d",hauteur);
-	  printf("\nbutton relached");
-	  return selectRect(myWindow);
+	  return selectRect(myWindow,x,y,largeur,hauteur);
 	}
 	break;
       
@@ -46,33 +45,61 @@ void selectMouse(SDL_Window* myWindow){
 	break;
       }
     }
-  }		
+  }
+  printf("\nLa selection a echouee");
+  return NULL;
 }
 
-void selectWindow(SDL_Window *myWindow){
+Selection* selectWindow(SDL_Window *myWindow){
 
-  SDL_Surface *win_surface = SDL_GetWindowSurface(myWindow); 
-  SDL_FillRect(win_surface, NULL, SDL_MapRGB(win_surface->format, 125,50,100));
-  SDL_UpdateWindowSurface(myWindow); 
-  
-  return;
+  Selection* selection = malloc(sizeof(Selection));
+  assert(selection != NULL);
+    
+  int largeur, hauteur;
+  SDL_GetWindowSize(myWindow,&largeur,&hauteur);
+
+  SDL_Rect sel = {0,0,largeur,hauteur};
+  selection->window = myWindow;
+  selection->rect = &sel;
+  selection->selection = 1;
+  selection->copy = 0;
+
+  /* On affiche le rectangle de selection */
+  SDL_Surface *win_surface = SDL_GetWindowSurface(myWindow);
+  assert(win_surface != NULL);
+  rectangle(win_surface, 0, 0, largeur, hauteur, SDL_MapRGB(win_surface->format, 125,50,100));
+  assert(SDL_UpdateWindowSurface(myWindow)>= 0);
+
+  return selection; 
 }
 
-void selectRect(SDL_Window *myWindow){
-  
+Selection* selectRect(SDL_Window *myWindow, int x, int y, int l, int h){
+
+  Selection* selection = malloc(sizeof(Selection));
+  assert(selection != NULL);
+
+  SDL_Rect sel = {x,y,l,h};
+  selection->window = myWindow;
+  selection->rect = &sel;
+  selection->selection = 1;
+  selection->copy = 0;
+
+   /* On affiche le rectangle de selection */
   SDL_Surface* surface = SDL_GetWindowSurface(myWindow);
-  int x = 10, y = 20, l = 200, h = 200;
-  SDL_Rect dest_rect = {x, y, l, h}; 
-  assert(SDL_FillRect(surface, &dest_rect, SDL_MapRGB(surface->format, 125,50,100)) >= 0);
+  rectangle(surface, x, y, l, h, SDL_MapRGB(surface->format, 125,50,100));
   assert(SDL_UpdateWindowSurface(myWindow) >= 0);
   
   printf("\nRectangle normalement dessiné");
-  return;
+  return selection;
 }
 
-void deselectionner(SDL_Window *myWindow){
-
-
+void deselectionner(Selection *sel){
+  if (sel == NULL){
+    printf("\nAucune region selectionnee");
+    return;
+  }
+  sel->selection = 0;
+  free(sel);
   return;
 }
 

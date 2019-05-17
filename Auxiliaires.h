@@ -9,8 +9,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
+#include <assert.h>
 
-#include "Fichier.h"
 
 int findWindowID(SDL_Window* tabW[], Uint32 wID, int nbWindows);
 void decalWindows(SDL_Window* tabW[], int i, int nbWindows);

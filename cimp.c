@@ -4,6 +4,7 @@
 SDL_Event event;
 SDL_Window* window[MAX_WIN];
 Uint32 couleur;
+Selection* selection;
 int  nbWindows = 0, iWindow = 0;
 
 void init_cimp()
@@ -24,7 +25,6 @@ int args_length(char *args[]) {
 
 // split_line la ligne de commande pour obtenir les arguments
 char **split_line(char *line) {
-  printf("\nla line %s :",line);
     int pos = 0;
     char **tab;
     char *s;
@@ -40,7 +40,6 @@ char **split_line(char *line) {
     }
 
     tab[pos] = NULL;
-    printf("\net maintenant : %s %d %s",line,sizeof(tab),tab[pos-1]);
     return tab;
 }
 
@@ -100,17 +99,18 @@ int parse(char **cmd){
   else if (strcasecmp(cmd[0],"select") == 0){
     if (args_length(cmd) == 1){ 
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selectRect(window[iWindow]);
+      selection = selectWindow(window[iWindow]);
       return 1;
     }
     if (args_length(cmd) == 2){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selectMouse(window[iWindow]);
+      selection = selectMouse(window[iWindow]);
       return 1;
     }
     if (args_length(cmd) == 5){
+      int x = atoi(cmd[1]), y = atoi(cmd[2]), l = atoi(cmd[3]), h = atoi(cmd[4]);
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      selectRect(window[iWindow]);
+      selection = selectRect(window[iWindow],x,y,l,h);
       return 1;
     }
     else {
@@ -125,14 +125,36 @@ int parse(char **cmd){
       return 0;
     }
     else {
-      iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      deselectionner(window[iWindow]);
+      deselectionner(selection);
       return 1;
     }
   }
 
   //-------------------------------- * EDITION * ---------------------------------//
-  
+
+  else if (strcasecmp(cmd[0],"copy") == 0){
+    if (args_length(cmd) > 1){
+      printf("\nSyntaxe incorrecte ! Consultez \"help copy\".");
+      return 0;
+    }
+    else {
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      copier(window[iWindow],selection);
+      return 1;
+    }
+  }
+
+  else if (strcasecmp(cmd[0],"paste") == 0){
+    if (args_length(cmd) == 5){
+      iWindow = findWindowID(window,event.window.windowID,nbWindows);
+      coller(window[iWindow],selection,cmd[1],cmd[2],cmd[3],cmd[4]);
+      return 1;
+    }
+    else {     
+      printf("\nSyntaxe incorrecte ! Consultez \"help paste\"\n");
+      return 0;
+    }
+  }
 
 
   //-------------------------------- * DESSIN * ---------------------------------//
@@ -157,7 +179,7 @@ int parse(char **cmd){
   else if (strcasecmp(cmd[0],"clear") == 0){
     if (args_length(cmd) == 1){
       iWindow = findWindowID(window,event.window.windowID,nbWindows);
-      clear(SDL_GetWindowSurface(window[iWindow]), color(SDL_GetWindowSurface(window[iWindow]),"white"));
+      clear(SDL_GetWindowSurface(window[iWindow]), color(SDL_GetWindowSurface(window[iWindow]),"red"));
       SDL_UpdateWindowSurface(window[iWindow]);
       return 1;
     }

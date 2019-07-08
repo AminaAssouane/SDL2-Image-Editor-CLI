@@ -481,7 +481,8 @@ int parse(char **cmd){
       printf("Syntaxe incorrecte ! Consultez [help fill_color]\n");
       return 0;
     }
-    else{
+    else
+      {
       if(nbWindows <= 0){
         printf("Aucune fenetre pour executer la commande\n");
         return 0;

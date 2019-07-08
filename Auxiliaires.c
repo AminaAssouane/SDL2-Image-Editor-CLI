@@ -3,7 +3,6 @@
 #include "Auxiliaires.h"
 
 
-
 /* Fonction qui trouve l'indice d'une fenêtre dans la liste "window[]" après avoir cliqué dessus */
 int findWindowID(SDL_Window* tabW[], Uint32 wID, int nbWindows){
   for (int i = 0; i < nbWindows; i++){

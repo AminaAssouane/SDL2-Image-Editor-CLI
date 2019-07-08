@@ -5,6 +5,7 @@
 
 
 ///Mise en niveaux de gris
+
  SDL_Surface * mise_en_niveaux_de_gris(Selection* selection){
    SDL_Surface* image = selection->withoutRect;
    for (int y = 0; y < image->h; y++)
